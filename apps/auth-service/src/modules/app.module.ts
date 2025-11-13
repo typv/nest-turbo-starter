@@ -1,5 +1,6 @@
 import {
   AllExceptionFilter,
+  appCommonConfiguration,
   getWinstonConfig,
   HttpLoggerMiddleware,
   kafkaConfiguration,
@@ -34,6 +35,7 @@ import { AuthModule } from './auth';
         abortEarly: false,
       },
       load: [
+        appCommonConfiguration,
         appConfiguration,
         rabbitmqConfiguration,
         kafkaConfiguration,
@@ -41,10 +43,14 @@ import { AuthModule } from './auth';
       ],
     }),
     WinstonModule.forRootAsync({
-      useFactory: (appConfig: ConfigType<typeof appConfiguration>) => {
-        return getWinstonConfig(appConfig.appName, appConfig.nodeEnv);
+      useFactory: (
+        appConfig: ConfigType<typeof appConfiguration>,
+        appCommonConfig: ConfigType<typeof appCommonConfiguration>,
+      ) => {
+        console.log("appCommonConfig: ", appCommonConfig);
+        return getWinstonConfig(appConfig.appName, appCommonConfig.isProductionEnv);
       },
-      inject: [appConfiguration.KEY],
+      inject: [appConfiguration.KEY, appCommonConfiguration.KEY],
     }),
     MicroserviceModule.registerAsync([
       {

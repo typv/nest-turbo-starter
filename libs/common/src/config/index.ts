@@ -12,3 +12,4 @@ export * from './kafka.config';
 export * from './code-expires.config';
 export * from './config.validation';
 export * from './tcp.config';
+export * from './app-common.config';

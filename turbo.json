@@ -52,6 +52,9 @@
     "tsconfig.json"
   ],
   "globalEnv": [
+    "TZ",
+    "NODE_ENV",
+    "FRONTEND_URL",
     "NODE_ENV",
     "JWT_SECRET",
     "REDIS_URL",

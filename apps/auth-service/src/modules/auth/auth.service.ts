@@ -1,6 +1,7 @@
 import {
   AccountAction,
   APP_DEFAULTS,
+  appCommonConfiguration,
   codeExpiresConfiguration,
   ERROR_RESPONSE,
   getTtlValue,
@@ -45,6 +46,8 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
     private readonly googleAuthService: GoogleAuthService,
     @Inject(appConfiguration.KEY)
     private readonly appConfig: ConfigType<typeof appConfiguration>,
+    @Inject(appCommonConfiguration.KEY)
+    private readonly appCommonConfig: ConfigType<typeof appCommonConfiguration>,
     @Inject(jwtConfiguration.KEY)
     private readonly jwtConfig: ConfigType<typeof jwtConfiguration>,
     @Inject(codeExpiresConfiguration.KEY)
@@ -142,7 +145,7 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
     const token = uuidv4();
     const tokenTtl = getTtlValue(this.codeExpiresConfig.resetPassword);
     const resetPasswordUrl =
-      this.appConfig.frontendUrl +
+      this.appCommonConfig.frontendUrl +
       '/redirect?email=' +
       encodeURIComponent(user.email) +
       '&token=' +

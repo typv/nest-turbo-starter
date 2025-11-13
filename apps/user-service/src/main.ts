@@ -1,4 +1,4 @@
-import { getWinstonConfig, logBootstrapInfo, setupSwagger } from '@app/common';
+import { getAppCommonConfig, getWinstonConfig, logBootstrapInfo, setupSwagger } from '@app/common';
 import { PayloadValidationPipe } from '@app/common';
 import {
   MicroserviceConfigOptions,
@@ -17,8 +17,9 @@ import { getAppConfig } from 'src/config/app.config';
 import { AppModule } from './modules/app.module';
 
 async function bootstrap() {
-  const { appName, appPort, isProductionEnv, nodeEnv } = getAppConfig();
-  const logger = WinstonModule.createLogger(getWinstonConfig(appName, nodeEnv));
+  const { appName, appPort } = getAppConfig();
+  const { isProductionEnv } = getAppCommonConfig();
+  const logger = WinstonModule.createLogger(getWinstonConfig(appName, isProductionEnv));
 
   const app = await NestFactory.create(AppModule, {
     logger,

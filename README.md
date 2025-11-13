@@ -354,11 +354,12 @@ docker compose run --rm kong-deck gateway sync /app/kong-dev.yaml
 
 ## ⚙️ Microservices
 
-| Type              | Example                                                                 |
-| ----------------- | ----------------------------------------------------------------------- |
-| **Direct Access** | http://localhost:port                                                   |
-| **Via APISIX**    | http://localhost:`APISIX_NODE_LISTEN`/`service_name` |
-| Example           | [http://localhost:9180/auth-service](http://localhost:9180/auth-service) |
+| Type             | Example                                                                                  |
+|------------------|------------------------------------------------------------------------------------------|
+| **Direct Access** | http://localhost:port/api                                                                |
+| **Via APISIX**   | http://localhost:`APISIX_NODE_LISTEN`/`service_name`/api                                 |
+| Example          | [http://localhost:9080/auth-service/api](http://localhost:9080/auth-service/api)         |
+| Swagger          | [http://localhost:9080/auth-service/swagger](http://localhost:9080/auth-service/swagger) |
 
 ---
 

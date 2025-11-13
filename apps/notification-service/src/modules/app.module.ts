@@ -1,5 +1,6 @@
 import {
   AllExceptionFilter,
+  appCommonConfiguration,
   getWinstonConfig,
   kafkaConfiguration,
   rabbitmqConfiguration,
@@ -30,6 +31,7 @@ import { AppAuthGuard } from '../guards/app-auth.guard';
         abortEarly: false,
       },
       load: [
+        appCommonConfiguration,
         appConfiguration,
         rabbitmqConfiguration,
         kafkaConfiguration,
@@ -37,10 +39,13 @@ import { AppAuthGuard } from '../guards/app-auth.guard';
       ],
     }),
     WinstonModule.forRootAsync({
-      useFactory: (appConfig: ConfigType<typeof appConfiguration>) => {
-        return getWinstonConfig(appConfig.appName, appConfig.nodeEnv);
+      useFactory: (
+        appConfig: ConfigType<typeof appConfiguration>,
+        appCommonConfig: ConfigType<typeof appCommonConfiguration>
+      ) => {
+        return getWinstonConfig(appConfig.appName, appCommonConfig.isProductionEnv);
       },
-      inject: [appConfiguration.KEY],
+      inject: [appConfiguration.KEY, appCommonConfiguration.KEY],
     }),
     // BullModule.forRootAsync({
     //   imports: [RedisModule],

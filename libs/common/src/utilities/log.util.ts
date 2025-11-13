@@ -5,7 +5,7 @@ import { WinstonModuleOptions } from 'nest-winston';
 
 export function getWinstonConfig(
   appName: string,
-  nodeEnv: string,
+  isProductionEnv: boolean,
 ): WinstonModuleOptions {
   const consoleFormat = winston.format.combine(
     winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
@@ -25,7 +25,7 @@ export function getWinstonConfig(
       let metadataOutput = '';
       if (Object.keys(metadata).length > 0) {
         // Format metadata nicely for console
-        if (nodeEnv === 'production') {
+        if (isProductionEnv) {
           // Compact format for production
           metadataOutput = ` | ${Object.entries(metadata)
             .map(([key, value]) => `${key}: ${value}`)
@@ -48,7 +48,7 @@ export function getWinstonConfig(
     transports: [
       // Console transport
       new winston.transports.Console({
-        level: nodeEnv === 'production' ? 'info' : 'debug',
+        level: isProductionEnv ? 'info' : 'debug',
         format: consoleFormat,
         handleExceptions: true,
       }),
