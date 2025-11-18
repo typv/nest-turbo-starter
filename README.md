@@ -384,10 +384,10 @@ docker compose run --rm kong-deck gateway sync /app/kong-dev.yaml
 
 ## 🧭 API Gateways
 
-| Gateway              | URL Example                                                                         |
-| -------------------- | ----------------------------------------------------------------------------------- |
-| **APISIX Node**      | [http://localhost:`APISIX_NODE_LISTEN`](http://localhost:`APISIX_NODE_LISTEN`)      |
-| **APISIX Dashboard** | http://localhost:`APISIX_NODE_LISTEN`/ui |
+| Gateway          | URL Example                                                                    |
+|------------------| ------------------------------------------------------------------------------ |
+| **APISIX Node**  | [http://localhost:`APISIX_NODE_LISTEN`](http://localhost:`APISIX_NODE_LISTEN`) |
+| **Kong Gateway** | http://localhost:18088 |
 
 ---
 
@@ -409,6 +409,8 @@ docker compose run --rm kong-deck gateway sync /app/kong-dev.yaml
 | Redis Insight | [http://localhost:5534](http://localhost:5534)   |
 | Kafka UI      | [http://localhost:18082](http://localhost:18082) |
 | Kong Manager  | [http://localhost:18086](http://localhost:18086) |
+| APISIX Dashboard| http://localhost:`APISIX_DEPLOYMENT_ADMIN_LISTEN`/ui |
+
 
 ---
 # 🔐 Demo API — Sign-Up & Login (cURL)
