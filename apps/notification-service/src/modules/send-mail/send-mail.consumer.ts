@@ -2,7 +2,7 @@ import { AllExceptionFilter, NotificationMessagePattern } from '@app/common';
 import { Controller, UseFilters } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
-import { EmailService } from '../../email';
+import { EmailService } from '../email';
 
 @UseFilters(AllExceptionFilter)
 @Controller()

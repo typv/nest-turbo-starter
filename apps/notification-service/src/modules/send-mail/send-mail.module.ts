@@ -1,7 +1,7 @@
 import { codeExpiresConfiguration } from '@app/common';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { SendMailConsumer } from './consumer/send-mail.consumer';
+import { SendMailConsumer } from './send-mail.consumer';
 import { SendMailService } from './send-mail.service';
 
 @Module({
