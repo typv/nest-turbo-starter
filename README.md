@@ -6,6 +6,7 @@ A high-performance, monorepo microservices platform built with NestJS, optimized
 
 * [🚀 Getting Started](#-getting-started)
 * [🏗️ System Architecture](#-system-architecture)
+* [📦 Monorepo Structure](#-monorepo-structure)
 * [✅ Tech Stacks](#-tech-stacks)
 * [🛠️ Installation Preparation](#-installation-preparation)
 * [🐳 Build with Docker](#build-with-docker-)
@@ -48,7 +49,22 @@ This starter uses a Monorepo structure managed by **Turborepo** and **pnpm** to 
 
 This project implements a robust, containerized microservices architecture designed for high availability and scalability. All core services-built on NestJS and Node.js-reside within a secure Private Subnet, adhering to the principle of service autonomy where each microservice owns its PostgreSQL database. External client requests are strictly managed by Apache APISIX, which serves as the central API Gateway for routing, security, and policy enforcement via HTTP. Internal service-to-service communication is handled via efficient TCP connections, while Kafka is optionally integrated to enable scalable, asynchronous communication and event-driven processing, minimizing service coupling.
 
+---
 
+## 📦 Monorepo Structure
+```bash
+  apps/
+    auth-service/
+    user-service/
+    ...
+  libs/
+    common/
+    core/
+    ...
+  config/
+    apisix/
+    kong/
+```
 ---
 
 ## ✅ Tech Stacks
