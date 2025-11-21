@@ -159,32 +159,52 @@ docker compose exec node pnpm install
 
 #### Build all services
 
-```bash
-docker compose exec node pnpm build
-```
+  ```bash
+  docker compose exec node pnpm build
+  #or
+  make buildApp
+  ```
 
 #### Build a single service
 
-```bash
-docker compose exec node pnpm --filter=auth-service build
-```
+  ```bash
+  docker compose exec node pnpm --filter=service_name build
+  #or
+  make buildApp filter=service_name
+  ```
 
 ---
 
 ### Run Database Migrations
 
+#### Create migration file
+
+  ```bash
+  # Generate a migration script based on entities (recommended)
+  docker compose exec node pnpm --filter=service_name migration:create --name migration_name
+  # Create blank file
+  docker compose exec node pnpm --filter=service_name migration:createBlank --name migration_name 
+    
+  ```
+
 #### Run migrations for all services
 
   ```bash
   docker compose exec node pnpm migrate
+  #or
+  make migrate
   ```
 
 #### Run migrations for a specific service
 
   ```bash
-  docker compose exec node pnpm --filter=service_name migrate:up
+  docker compose exec node pnpm --filter=service_name migration:up
+  #or
+  make migrate filter=service_name
+  
   # Example:
-  docker compose exec node pnpm --filter=auth-service migrate:up
+  docker compose exec node pnpm --filter=user-service migration:up
+  make migrate filter=user-service
   ```
 
 ---
@@ -197,14 +217,20 @@ docker compose exec node pnpm --filter=auth-service build
 
   ```bash
   docker compose exec node pnpm dev
+  #or
+  make dev
   ```
 
 * Start a single service:
 
   ```bash
   docker compose exec node pnpm dev --filter=service_name
+  #or
+  make dev filter=service_name
+  
   # Example:
   docker compose exec node pnpm dev --filter=auth-service
+  make dev filter=auth-service
   ```
 
 #### 🚀 Production Mode
@@ -213,12 +239,16 @@ docker compose exec node pnpm --filter=auth-service build
 
   ```bash
   docker compose exec node pnpm prod
+  #or
+  make prod
   ```
 
 * Start a single service:
 
   ```bash
   docker compose exec node pnpm prod --filter=service_name
+  #or
+  make prod filter=service_name
   ```
 
 ---
@@ -312,13 +342,13 @@ pnpm --filter=auth-service build
 Run migrations for all services:
 
 ```bash
-pnpm migrate
+pnpm migration:up
 ```
 
 Or for one service:
 
 ```bash
-pnpm --filter=auth-service migrate:up
+pnpm --filter=auth-service migration:up
 ```
 
 ---

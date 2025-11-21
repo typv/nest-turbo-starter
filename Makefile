@@ -24,8 +24,8 @@ filter_arg := $(if $(filter all,$(filter)),, --filter=$(filter))
 
 buildApp:
 	docker compose exec node pnpm build $(filter_arg)
-migrateOne:
-	docker compose exec node pnpm --filter=${s} migration:up
+migrate:
+	docker compose exec node pnpm $(filter_arg) migration:up
 dev:
 	docker compose exec node pnpm dev $(filter_arg)
 prod:
