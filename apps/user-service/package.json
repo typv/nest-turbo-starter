@@ -22,7 +22,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/jest/bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "migration:create": "npx mikro-orm migration:create --config mikro-orm.config.ts",
-    "migration:createEmpty": "npx mikro-orm migration:create --empty",
+    "migration:createBlank": "npx mikro-orm migration:create --blank",
     "migration:up": "npx mikro-orm migration:up",
     "migration:down": "npx mikro-orm migration:down",
     "migration:list": "npx mikro-orm migration:list",

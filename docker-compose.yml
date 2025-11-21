@@ -31,7 +31,7 @@ services:
     ports:
       - '5534:5432'
     volumes:
-      - ${PWD}/.docker/volumes/user_pgdata:/var/lib/postgresql/data
+      - ${PWD}/.docker/volumes/pgdata:/var/lib/postgresql/data
     networks:
       - nest-turbo-network
     environment:

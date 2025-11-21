@@ -14,7 +14,7 @@
     "test": "turbo run test",
     "dev": "dotenv -e .env -- turbo run start:dev --parallel",
     "prod": "turbo run start:prod --parallel",
-    "migrate": "turbo run migration:up --parallel",
+    "migration:up": "turbo run migration:up --parallel",
     "lint": "turbo run lint",
     "prepare": "husky",
     "format": "prettier --write \"apps/**/src/**/*.ts\" \"libs/**/src/**/*.ts\""
