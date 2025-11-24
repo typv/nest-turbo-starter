@@ -2,7 +2,7 @@ import { hashData, Role } from '@app/common';
 import { EntityManager } from '@mikro-orm/core';
 import chalk from 'chalk';
 import { Command, CommandRunner, InquirerService, Option } from 'nest-commander';
-import { UserRepository } from 'src/data-access/user';
+import { User, UserRepository } from 'src/data-access/user';
 import { commandConstants, questionConstants } from './command.constant';
 
 @Command({
@@ -20,6 +20,8 @@ export class CreateAdminCommand extends CommandRunner {
   }
 
   async run(): Promise<void> {
+    const em = this.em.fork();
+
     const answers = await this.inquirer.prompt<{
       email: string;
       password: string;
@@ -27,15 +29,7 @@ export class CreateAdminCommand extends CommandRunner {
     const email = answers.email.trim();
     const pass = answers.password.trim();
 
-    // TODO
-    /*const adminRole = await this.roleRepo.findOneBy({ code: Roles.ADMIN });
-    if (!adminRole) {
-      console.lo
-      g(chalk.green('CreateAdminCommand Error: Admin role not found.'));
-      throw new Error();
-    }*/
-
-    const hasAccount = await this.userRepo.findOne({ email });
+    const hasAccount = await em.findOne(User, { email });
     if (hasAccount) {
       console.log(chalk.red('CreateAdminCommand Error: Email already exist.'));
       return;
@@ -47,12 +41,13 @@ export class CreateAdminCommand extends CommandRunner {
       const userData = {
         email: email,
         password: passwordHash,
+        fullName: 'ADMIN',
         isActive: true,
         emailVerified: true,
         role: Role.Admin,
       };
-      const newAdmin = this.userRepo.create(userData);
-      await this.em.persistAndFlush(newAdmin);
+      const newAdmin = em.create(User, userData);
+      await em.persistAndFlush(newAdmin);
       console.log(chalk.green('Create admin successfully.'));
     } catch (err) {
       console.log(chalk.green('CreateAdminCommand Error: '), err);

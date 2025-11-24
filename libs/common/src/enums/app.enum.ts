@@ -1,6 +1,6 @@
 export enum Role {
   Admin = 'Admin',
-  Merchant = 'Merchant',
+  User = 'User',
 }
 
 export enum BodyContentType {

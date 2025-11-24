@@ -30,7 +30,7 @@
     "migration:pending": "npx mikro-orm migration:pending",
     "migration:fresh": "npx mikro-orm migration:fresh",
     "gen:admin": "ts-node src/commands/create-admin.command.ts",
-    "command:run": "node dist/src/cli"
+    "command:run": "node dist/cli.js"
   },
   "devDependencies": {
     "@mikro-orm/cli": "^6.5.8",

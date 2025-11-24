@@ -93,7 +93,7 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
       ...body,
       isActive: true,
       emailVerified: false,
-      role: Role.Merchant,
+      role: Role.User,
     };
     const newUser = await this.msResponse(
       this.userClientTCP.send(UserMessagePattern.CREATE_USER, userData),

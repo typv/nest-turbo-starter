@@ -4,6 +4,7 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "webpack": true,
+    "webpackConfigPath": "./webpack.config.js",
     "preserveSymlinks": true,
     "deleteOutDir": true,
     "assets": [
