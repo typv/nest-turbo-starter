@@ -403,9 +403,9 @@ pnpm prod --filter=auth-service
 #### Sync configuration from file
 
 ```bash
-docker compose run --rm adc adc sync -f apisix-${environment}.yaml
+docker compose run --rm adc adc sync -f conf/apisix-${environment}.yaml
 # Example:
-docker compose run --rm adc adc sync -f apisix-dev.yaml
+docker compose run --rm adc adc sync -f conf/apisix-dev.yaml
 ```
 
 #### Dump configuration from DB for verification
