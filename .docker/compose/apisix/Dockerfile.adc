@@ -2,9 +2,14 @@ FROM debian:12-slim
 
 RUN apt-get update && apt-get install -y curl bash ca-certificates && rm -rf /var/lib/apt/lists/*
 
-RUN curl -sL "https://run.api7.ai/adc/install" | bash
+#RUN curl -sL "https://run.api7.ai/adc/install" | bash
 
-ENV PATH="/root/.adc/bin:${PATH}"
+COPY .docker/compose/apisix/adc_0.23.1_linux_amd64.tar.gz /tmp/adc.tar.gz
+RUN tar -zxvf /tmp/adc.tar.gz -C /usr/local/bin/ --strip-components=1 && \
+    chmod +x /usr/local/bin/adc && \
+    rm /tmp/adc.tar.gz
+
+ENV PATH="/usr/local/bin:${PATH}"
 
 WORKDIR /work
 
