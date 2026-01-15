@@ -1,21 +1,4 @@
-import { PropertyDto } from '@app/common';
-import { IsEmail } from 'class-validator';
+import { PickType } from '@nestjs/swagger';
+import { AuthBaseDto } from './auth-base.dto';
 
-export class LoginDto {
-  @PropertyDto({
-    type: String,
-    required: true,
-    validated: true,
-    example: 'temporary001@email.com',
-  })
-  @IsEmail()
-  email: string;
-
-  @PropertyDto({
-    type: String,
-    required: true,
-    validated: true,
-    example: '12345678Aa@',
-  })
-  password: string;
-}
+export class LoginDto extends PickType(AuthBaseDto, ['email', 'password'] as const) {}

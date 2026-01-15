@@ -12,13 +12,18 @@ import {
   Role,
   ServerException,
   SuccessResponseDto,
+  TokenPayload,
   UserMessagePattern,
+  UserRequestPayload,
   verifyHashed,
 } from '@app/common';
-import { TokenPayload, UserRequestPayload } from '@app/common';
-import { BaseService, MicroserviceName, MS_INJECTION_TOKEN } from '@app/core';
-import { GoogleAuthService } from '@app/core';
-import { RedisService } from '@app/core';
+import {
+  BaseService,
+  GoogleAuthService,
+  MicroserviceName,
+  MS_INJECTION_TOKEN,
+  RedisService,
+} from '@app/core';
 import { Inject, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
@@ -27,11 +32,12 @@ import { appConfiguration } from 'src/config';
 import { v4 as uuidv4 } from 'uuid';
 import {
   ChangePasswordDto,
+  ForgotPasswordDto,
   LoginDto,
   LoginResponseDto,
   ResetPasswordDto,
-  ForgotPasswordDto,
-  SignUpDto, SignUpResponseDto,
+  SignUpDto,
+  SignUpResponseDto,
   VerifyResetPasswordDto,
   VerifyResetPasswordResponseDto,
 } from './dto';
@@ -121,9 +127,7 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
     return { accessToken };
   }
 
-  async sendResetPasswordLink(
-    body: ForgotPasswordDto,
-  ): Promise<SuccessResponseDto> {
+  async sendResetPasswordLink(body: ForgotPasswordDto): Promise<SuccessResponseDto> {
     const { email } = body;
     const user = await this.msResponse(
       this.userClientTCP.send(UserMessagePattern.GET_USER, { email }),
@@ -288,7 +292,7 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
     body: ChangePasswordDto,
     userPayload: UserRequestPayload,
   ): Promise<SuccessResponseDto> {
-    const { currentPassword, newPassword } = body;
+    const { password: currentPassword, newPassword } = body;
     const user = await this.msResponse(
       this.userClientTCP.send(UserMessagePattern.GET_USER, {
         email: userPayload.email,

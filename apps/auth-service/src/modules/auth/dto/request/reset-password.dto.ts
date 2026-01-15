@@ -1,22 +1,16 @@
-import { VerifyResetPasswordDto } from './verify-reset-password.dto';
 import { PropertyDto } from '@app/common';
-import { IsStrongPassword, Matches, MaxLength } from 'class-validator';
+import { PickType } from '@nestjs/swagger';
+import { AuthBaseDto } from './auth-base.dto';
 
-export class ResetPasswordDto extends VerifyResetPasswordDto {
+export class ResetPasswordDto extends PickType(AuthBaseDto, [
+  'email',
+  'newPassword',
+] as const) {
   @PropertyDto({
     type: String,
     required: true,
     validated: true,
-    example: 'NewPass@123',
+    example: '9b92c6b1-f124-40e9-abce-66e67854c5f5m',
   })
-  @MaxLength(50)
-  @IsStrongPassword({
-    minLength: 8,
-    minUppercase: 1,
-    minLowercase: 1,
-    minNumbers: 1,
-    minSymbols: 1,
-  })
-  @Matches(/^\S*$/, { message: 'Whitespace not allowed' })
-  newPassword: string;
+  token: string;
 }
