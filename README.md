@@ -463,7 +463,7 @@ docker compose run --rm kong-deck gateway sync /app/kong-dev.yaml
 
 ## Sign-Up
 ```bash
-    curl --location --request GET 'http://0.0.0.0:9080/auth-service/api/auth/sign-up' \
+    curl --location --request POST 'http://0.0.0.0:9080/auth-service/api/auth/sign-up' \
     --header 'Content-Type: application/json' \
     --data-raw '{
         "email": "test@example.com",
