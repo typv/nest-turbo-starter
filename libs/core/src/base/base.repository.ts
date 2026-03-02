@@ -1,7 +1,7 @@
 import { APP_DEFAULTS } from '@app/common';
 import { EntityRepository } from '@mikro-orm/core';
 import { SelectQueryBuilder } from '@mikro-orm/postgresql';
-import { BaseEntity } from 'src/data-access/base.entity';
+import { BaseEntity } from './base.entity';
 
 export interface PaginationResult<T> {
   data: T[];
