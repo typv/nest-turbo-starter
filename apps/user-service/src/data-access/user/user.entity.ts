@@ -1,7 +1,7 @@
 import { Gender, Role } from '@app/common';
 import { Entity, EntityRepositoryType, Filter, Property } from '@mikro-orm/core';
 import { Exclude } from 'class-transformer';
-import { BaseEntity } from 'src/data-access/base.entity';
+import { BaseEntity } from '@app/core';
 import { UserRepository } from 'src/data-access/user/user.repository';
 
 @Filter({

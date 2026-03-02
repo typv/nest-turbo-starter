@@ -657,6 +657,12 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.821.0
         version: 3.910.0
+      '@mikro-orm/core':
+        specifier: ^6.5.2
+        version: 6.5.8
+      '@mikro-orm/postgresql':
+        specifier: ^6.5.2
+        version: 6.5.8(@mikro-orm/core@6.5.8)
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -669,6 +675,9 @@ importers:
       axios:
         specifier: ^1.10.0
         version: 1.12.2
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
       firebase-admin:
         specifier: ^13.5.0
         version: 13.5.0
@@ -687,6 +696,9 @@ importers:
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
+      uuid:
+        specifier: ^11.1.0
+        version: 11.1.0
       winston:
         specifier: ^3.17.0
         version: 3.18.3
