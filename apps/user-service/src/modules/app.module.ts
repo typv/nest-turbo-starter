@@ -14,7 +14,7 @@ import { ConfigModule, ConfigType } from '@nestjs/config';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { WinstonModule } from 'nest-winston';
 import { appConfiguration, dbConfiguration } from 'src/config';
-import { BaseRepository } from 'src/data-access/base.repository';
+import { BaseRepository } from '@app/core';
 import { RoleBasedAccessControlGuard } from 'src/guards/rbac.guard';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
