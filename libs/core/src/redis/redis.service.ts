@@ -103,43 +103,11 @@ export class RedisService {
     return `user:${userId}:reset_password`;
   }
 
-  public getVerifyEmailKey(userId: string): string {
-    return `user:${userId}:verify`;
-  }
-
   public getUserTokenKey(userId: string, jti: string): string {
     return `user:${userId}:token:${jti}`;
   }
 
   public getUserTokenPattern(userId: string): string {
     return `user:${userId}:token:*`;
-  }
-
-  public getUserTwoFactorOtpKey(userId: string): string {
-    return `user:${userId}:2fa:otp`;
-  }
-
-  public getCalendarSyncLockKey(
-    provider: 'google' | 'zoom' | 'outlook',
-    practitionerId: number,
-  ) {
-    return `${provider}_calendar_sync_lock:${practitionerId}`;
-  }
-
-  public getResetPasswordAttempts(email: string) {
-    return `user:${email}:reset_password_attempts`;
-  }
-
-  async increaseResetAttempts(email: string, ttlSeconds: number): Promise<number> {
-    const key = this.getResetPasswordAttempts(email);
-    const count = await this.redis.incr(key);
-    if (count === 1) {
-      await this.redis.expire(key, ttlSeconds);
-    }
-    return count;
-  }
-
-  async getResetAttemptsTtl(email: string): Promise<number> {
-    return this.redis.ttl(this.getResetPasswordAttempts(email));
   }
 }
