@@ -12,8 +12,6 @@ node:
 	docker compose exec node sh
 db:
 	docker compose exec db bash
-buildApp:
-	docker compose exec node pnpm build
 buildCleanApp:
 	docker compose exec node pnpm build:clean
 install:
@@ -22,8 +20,10 @@ install:
 filter ?= all
 filter_arg := $(if $(filter all,$(filter)),, --filter=$(filter))
 
-buildApp:
+buildAll:
 	docker compose exec node pnpm build $(filter_arg)
+buildLibs:
+	make buildAll filter="./libs/*"
 migrate:
 	docker compose exec node pnpm $(filter_arg) migration:up
 dev:

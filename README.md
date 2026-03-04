@@ -162,7 +162,7 @@ docker compose exec node pnpm install
   ```bash
   docker compose exec node pnpm build
   #or
-  make buildApp
+  make buildAll
   ```
 
 #### Build a single service
@@ -170,7 +170,15 @@ docker compose exec node pnpm install
   ```bash
   docker compose exec node pnpm --filter=service_name build
   #or
-  make buildApp filter=service_name
+  make buildAll filter=service_name
+  ```
+
+#### Build all libraries
+
+  ```bash
+  docker compose exec node pnpm build --filter="./libs/*"
+  #or
+  make buildLibs
   ```
 
 ---
