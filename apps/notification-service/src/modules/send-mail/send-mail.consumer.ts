@@ -1,6 +1,6 @@
 import { AllExceptionFilter, NotificationMessagePattern } from '@app/common';
 import { Controller, UseFilters } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
+import { EventPattern } from '@nestjs/microservices';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { EmailService } from '../email';
 
@@ -9,7 +9,7 @@ import { EmailService } from '../email';
 export class SendMailConsumer {
   constructor(private readonly emailService: EmailService) {}
 
-  @MessagePattern(NotificationMessagePattern.FORGOT_PASSWORD)
+  @EventPattern(NotificationMessagePattern.FORGOT_PASSWORD)
   async sendMail(data: ForgotPasswordDto): Promise<{ success: boolean }> {
     await this.emailService.forgotPasswordMailer(data);
     return { success: true };

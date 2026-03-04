@@ -134,16 +134,6 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
     );
     if (!user) throw new ServerException(ERROR_RESPONSE.USER_NOT_FOUND);
 
-    const attempts = await this.redisService.increaseResetAttempts(
-      email,
-      APP_DEFAULTS.RESET_PASSWORD_WINDOW_SECONDS,
-    );
-
-    if (attempts > APP_DEFAULTS.RESET_PASSWORD_MAX_ATTEMPTS) {
-      const ttl = await this.redisService.getResetAttemptsTtl(email);
-      throw new ServerException(ERROR_RESPONSE.MAXIMUM_EMAIL_RESEND);
-    }
-
     const token = uuidv4();
     const tokenTtl = getTtlValue(this.codeExpiresConfig.resetPassword);
     const resetPasswordUrl =
@@ -155,13 +145,11 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
       '&action=' +
       AccountAction.ResetPassword;
 
-    const success = await this.msResponse(
-      this.notificationClientTCP.send(NotificationMessagePattern.FORGOT_PASSWORD, {
-        email,
-        name: user.fullName,
-        resetPasswordUrl,
-      }),
-    );
+    await this.notificationClientTCP.emit(NotificationMessagePattern.FORGOT_PASSWORD, {
+      email,
+      name: user.fullName,
+      resetPasswordUrl,
+    });
 
     // Save token to redis
     await this.redisService.setValue<string>(
