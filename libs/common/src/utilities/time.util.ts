@@ -8,7 +8,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import minMax from 'dayjs/plugin/minMax';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import ms, { StringValue } from 'ms';
+import ms from 'ms';
 import { APP_DEFAULTS } from '../constants';
 import { TimeOfDay } from '../enums';
 
@@ -33,10 +33,14 @@ export interface TimeRangeHour {
  */
 export function getTtlValue(rawTtl: string | number): number {
   if (typeof rawTtl === 'string') {
-    return Math.floor(ms(rawTtl as StringValue) / 1000);
+    return Math.floor(ms(rawTtl as ms.StringValue) / 1000);
   }
 
   return rawTtl;
+}
+
+export function parseStringValueToSeconds(value: ms.StringValue) {
+  return Math.floor(ms(value) / 1000);
 }
 
 export function doTimesOverlap(
