@@ -1,9 +1,11 @@
 import { ERROR_RESPONSE, hashData, ServerException } from '@app/common';
 import { UserRequestPayload } from '@app/common';
+import { RedisService } from '@app/core';
 import { EntityManager, wrap } from '@mikro-orm/core';
 import { Inject, Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { getAppConfig } from 'src/config';
 import { UserRepository } from 'src/data-access/user';
 import { Logger } from 'winston';
 import {
@@ -27,6 +29,7 @@ export class UserService {
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     private readonly em: EntityManager,
     private readonly userRepo: UserRepository,
+    private readonly redisService: RedisService,
   ) {
     this.logger = this.logger.child({ context: UserService.name });
   }
@@ -129,13 +132,22 @@ export class UserService {
     return plainToInstance(FindUserByEmailResponseDto, user);
   }
 
-  async getUserInfo(userPayload: UserRequestPayload) {
-    const { id, email, role, emailVerified } = userPayload;
-    return {
-      id,
-      email,
-      role,
-      emailVerified,
-    };
+  async getUserInfo({ id }: UserRequestPayload): Promise<GetUserResponseDto> {
+    const userInfoKey = this.redisService.getUserInfoKey(id);
+
+    let userInfo = await this.redisService.getValue<GetUserResponseDto>(userInfoKey);
+    if (userInfo) return userInfo;
+
+    const user = await this.userRepo.findOne({ id });
+    if (!user) throw new ServerException(ERROR_RESPONSE.USER_NOT_FOUND);
+
+    userInfo = plainToInstance(GetUserResponseDto, wrap(user).toJSON());
+    await this.redisService.setValue(
+      userInfoKey,
+      userInfo,
+      getAppConfig().cacheTtlInMinutes,
+    );
+
+    return userInfo;
   }
 }

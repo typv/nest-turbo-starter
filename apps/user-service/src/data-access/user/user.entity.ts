@@ -1,6 +1,5 @@
 import { Gender, Role } from '@app/common';
-import { Entity, EntityRepositoryType, Filter, Property } from '@mikro-orm/core';
-import { Exclude } from 'class-transformer';
+import { Entity, EntityRepositoryType, Filter, Hidden, Property } from '@mikro-orm/core';
 import { BaseEntity } from '@app/core';
 import { UserRepository } from 'src/data-access/user/user.repository';
 
@@ -40,9 +39,8 @@ export class User extends BaseEntity<User> {
   @Property({ default: true })
   isActive: boolean;
 
-  @Exclude()
-  @Property()
-  password: string;
+  @Property({ hidden: true })
+  password: Hidden<string>;
 
   @Property({ default: false })
   emailVerified: boolean;
