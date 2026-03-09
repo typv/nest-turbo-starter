@@ -7,20 +7,18 @@ import {
   rabbitmqConfiguration,
   tcpConfiguration,
 } from '@app/common';
-import { AwsS3Module, RedisModule } from '@app/core';
+import { AppAuthGuard, RedisModule, RoleBasedAccessControlGuard } from '@app/core';
+import { BaseRepository } from '@app/core';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { WinstonModule } from 'nest-winston';
 import { appConfiguration, dbConfiguration } from 'src/config';
-import { BaseRepository } from '@app/core';
-import { RoleBasedAccessControlGuard } from 'src/guards/rbac.guard';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth';
 import { UserModule } from './user';
-import { AppAuthGuard } from '../guards/app-auth.guard';
 
 @Module({
   imports: [
@@ -52,7 +50,7 @@ import { AppAuthGuard } from '../guards/app-auth.guard';
     WinstonModule.forRootAsync({
       useFactory: (
         appConfig: ConfigType<typeof appConfiguration>,
-        appCommonConfig: ConfigType<typeof appCommonConfiguration>
+        appCommonConfig: ConfigType<typeof appCommonConfiguration>,
       ) => {
         return getWinstonConfig(appConfig.appName, appCommonConfig.nodeEnv);
       },
