@@ -4,18 +4,11 @@ import {
   IS_PUBLIC_KEY,
   Role,
   ServerException,
+  UserRequestPayload,
 } from '@app/common';
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-
-export interface UserRequestPayload {
-  id: string;
-  jti: string;
-  email: string;
-  role?: Role;
-  emailVerified?: boolean;
-}
 
 @Injectable()
 export class RoleBasedAccessControlGuard extends AuthGuard('gateway-auth') {

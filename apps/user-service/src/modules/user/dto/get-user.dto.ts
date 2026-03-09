@@ -1,5 +1,4 @@
 import { Gender, Role } from '@app/common';
-import { IsUUID } from 'class-validator';
 
 export class GetUserDataDto {
   id?: string;
@@ -21,5 +20,4 @@ export class GetUserResponseDto {
   role: Role;
   createdAt: Date;
   updatedAt: Date;
-  password: string;
 }
