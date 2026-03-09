@@ -103,6 +103,10 @@ export class RedisService {
     return `user:${userId}:reset_password`;
   }
 
+  public getUserInfoKey(userId: string): string {
+    return `user:${userId}:info`;
+  }
+
   public getUserTokenKey(userId: string, jti: string): string {
     return `user:${userId}:token:${jti}`;
   }
