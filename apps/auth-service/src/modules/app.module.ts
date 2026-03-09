@@ -8,10 +8,11 @@ import {
   tcpConfiguration,
 } from '@app/common';
 import {
-  AwsS3Module,
+  AppAuthGuard,
   MicroserviceModule,
   MicroserviceName,
   RedisModule,
+  RoleBasedAccessControlGuard,
 } from '@app/core';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService, ConfigType } from '@nestjs/config';
@@ -19,7 +20,6 @@ import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
 import { WinstonModule } from 'nest-winston';
 import { appConfiguration } from 'src/config';
-import { AppAuthGuard, RoleBasedAccessControlGuard } from 'src/guards';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth';
