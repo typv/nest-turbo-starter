@@ -7,20 +7,24 @@ import {
   tcpConfiguration,
 } from '@app/common';
 import { HttpLoggerMiddleware } from '@app/common';
-import { MicroserviceModule, MicroserviceName, RedisModule } from '@app/core';
+import {
+  AppAuthGuard,
+  MicroserviceModule,
+  MicroserviceName,
+  RedisModule,
+  RoleBasedAccessControlGuard,
+} from '@app/core';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService, ConfigType } from '@nestjs/config';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { Transport } from '@nestjs/microservices';
 import { WinstonModule } from 'nest-winston';
 import { appConfiguration } from 'src/config';
-import { RoleBasedAccessControlGuard } from 'src/guards/rbac.guard';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth';
 import { EmailModule } from './email';
 import { SendMailModule } from './send-mail';
-import { AppAuthGuard } from '../guards/app-auth.guard';
-import { Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -42,7 +46,7 @@ import { Transport } from '@nestjs/microservices';
     WinstonModule.forRootAsync({
       useFactory: (
         appConfig: ConfigType<typeof appConfiguration>,
-        appCommonConfig: ConfigType<typeof appCommonConfiguration>
+        appCommonConfig: ConfigType<typeof appCommonConfiguration>,
       ) => {
         return getWinstonConfig(appConfig.appName, appCommonConfig.nodeEnv);
       },

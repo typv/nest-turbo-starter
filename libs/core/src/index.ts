@@ -5,3 +5,4 @@ export * from './firebase';
 export * from './google-auth';
 export * from './http';
 export * from './redis';
+export * from './auth';
