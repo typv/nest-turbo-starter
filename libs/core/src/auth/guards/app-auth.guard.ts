@@ -9,7 +9,7 @@ export class AppAuthGuard extends AuthGuard('gateway-auth') {
     super();
   }
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  override async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -25,7 +25,7 @@ export class AppAuthGuard extends AuthGuard('gateway-auth') {
     return !!isGrand;
   }
 
-  handleRequest(err: any, user: any, info: any) {
+  override handleRequest(err: any, user: any, info: any) {
     if (err || !user) {
       throw err || new ServerException(ERROR_RESPONSE.UNAUTHORIZED);
     }
