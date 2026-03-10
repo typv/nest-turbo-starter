@@ -16,11 +16,11 @@ export class RoleBasedAccessControlGuard extends AuthGuard('gateway-auth') {
     super();
   }
 
-  canActivate(context: ExecutionContext) {
+  override canActivate(context: ExecutionContext) {
     return super.canActivate(context);
   }
 
-  handleRequest(
+  override handleRequest(
     err: any,
     user: UserRequestPayload,
     info: any,
