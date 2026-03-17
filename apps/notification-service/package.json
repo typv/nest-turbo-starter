@@ -27,7 +27,8 @@
     "@swc/cli": "^0.6.0",
     "@swc/core": "^1.10.8",
     "supertest": "^7.0.0",
-    "ts-loader": "^9.5.2"
+    "ts-loader": "^9.5.2",
+    "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
     "@app/email-template": "workspace:*",
