@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "build": "tsup",
+    "start:dev": "tsup",
     "dev": "email dev"
   },
   "dependencies": {

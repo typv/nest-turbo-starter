@@ -21,7 +21,7 @@
       "cache": false,
       "persistent": true,
       "dependsOn": [
-        "build"
+        "^start:dev"
       ],
       "inputs": [
         "$TURBO_DEFAULT$",
