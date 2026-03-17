@@ -3,14 +3,6 @@ const nodeExternals = require('webpack-node-externals');
 module.exports = function (options, webpack) {
     return {
         ...options,
-        entry: {
-            main: options.entry,
-            cli: './src/cli.ts',
-        },
-        output: {
-            filename: '[name].js',
-            path: options.output.path,
-        },
         externals: [
             nodeExternals({
                 allowlist: [/^@app\//],

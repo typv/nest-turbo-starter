@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build:clean": "rimraf dist && pnpm build",
-    "build": "npx tsc -p tsconfig.json"
+    "build": "npx tsc -p tsconfig.json",
+    "start:dev": "npx tsc -p tsconfig.json --watch"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
