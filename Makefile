@@ -14,14 +14,16 @@ db:
 	docker compose exec db bash
 buildCleanApp:
 	docker compose exec node pnpm build:clean
-install:
-	docker compose exec node pnpm install
 
 filter ?= all
 get_filter = $(if $(filter all,$(filter)),, --filter=$(filter)$(1))
 f_deps  := $(call get_filter,...)
 f_exact := $(call get_filter,)
 
+install:
+	docker compose exec node pnpm install
+installOne:
+	docker compose exec node pnpm add $(n) $(f_exact)
 buildAll:
 	docker compose exec node pnpm build $(f_deps)
 buildLibs:
