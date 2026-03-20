@@ -2,7 +2,7 @@ import { NodeEnv } from '../enums';
 
 export const APP_DEFAULTS = {
   NODE_ENV: NodeEnv.Local,
-  APP_NAME: 'Nest Turbo Starter',
+  APP_NAME: 'Nest Turbo Starter1',
   APP_PORT: 3000,
   ACCESS_TOKEN_EXPIRES_IN: '1d',
   REFRESH_TOKEN_EXPIRES_IN: '30d',
