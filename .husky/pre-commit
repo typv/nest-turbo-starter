@@ -1,1 +1,4 @@
 #prettier --check "apps/**/src/**/*.ts" "libs/**/src/**/*.ts"
+
+pnpm exec lint-staged
+pnpm exec turbo check-types --filter=[HEAD]

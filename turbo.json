@@ -32,6 +32,10 @@
       "cache": false,
       "persistent": true
     },
+    "check-types": {
+      "cache": true,
+      "inputs": ["src/**/*.ts", "tsconfig.json", "tsconfig.build.json"]
+    },
     "start:prod": {
       "cache": false,
       "persistent": true,
