@@ -19,6 +19,10 @@
     "noFallthroughCasesInSwitch": false,
     "composite": true,
     "jsx": "react-jsx",
+    "paths": {}
   },
-  "references": [{ "path": "../../libs/common" }, { "path": "../../libs/core" }]
+  "references": [{ "path": "../../libs/common" }, { "path": "../../libs/core" }],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }

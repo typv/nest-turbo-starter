@@ -20,8 +20,9 @@
     },
     "check-types": {
       "cache": true,
+      "dependsOn": ["^build"],
       "inputs": [
-        "**/*.ts",
+        "apps/**/*.ts",
         "!**/node_modules/**",
         "!**/dist/**",
         "!**/coverage/**",

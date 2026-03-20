@@ -538,11 +538,8 @@ docker compose run --rm kong-deck gateway sync /app/kong-dev.yaml
 * Use `pnpm --filter=<service>` to target specific microservices efficiently.
 * If using Docker, ensure Docker and Docker Compose are running before executing commands.
 * If Git Pre-commit (Husky) is not working:
-
-  * Ensure you have run pnpm install at the root to trigger the prepare script.
-
+  * Run `pnpm prepare`.
   * For Linux/macOS users, grant execution permission: chmod +x .husky/pre-commit.
-
   * Verify the hooks path by running: git config core.hooksPath. It should return .husky.
 ---
 
