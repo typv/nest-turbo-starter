@@ -4,6 +4,7 @@ import path from 'path';
 import { databaseConfig } from 'src/config/database.config';
 
 const cliConfig = {
+  test: 'true',
   ...databaseConfig,
   migrations: {
     path: path.join(__dirname, 'src/database/migrations'),

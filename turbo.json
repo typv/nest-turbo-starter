@@ -12,17 +12,21 @@
     "start:dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["^start:dev"],
+      "dependsOn": [],
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "build:clean": {
-      "cache": false,
-      "persistent": true
+      "cache": false
     },
     "check-types": {
       "cache": true,
-      "persistent": true,
-      "inputs": ["src/**/*.ts", "tsconfig.json", "tsconfig.build.json"]
+      "inputs": [
+        "**/*.ts",
+        "!node_modules/**",
+        "!dist/**",
+        "tsconfig.json",
+        "tsconfig.build.json"
+      ]
     },
     "start:prod": {
       "cache": false,
@@ -31,7 +35,7 @@
     },
     "migration:up": {
       "cache": false,
-      "persistent": true,
+      "persistent": false,
       "dependsOn": ["build"]
     }
   },
