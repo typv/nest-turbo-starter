@@ -34,7 +34,7 @@ dev:
 	docker compose exec node pnpm dev $(f_deps)
 prod:
 	docker compose exec node pnpm prod $(f_exact)
-check-types:
+checkTypes:
 	docker compose exec node pnpm check-types $(f_exact)
 deckSync:
 	docker compose run --rm kong-deck gateway sync /app/kong-dev.yaml

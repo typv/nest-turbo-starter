@@ -243,6 +243,29 @@ docker compose exec node pnpm install
 
 #### 🚀 Production Mode
 
+### 1. Check types
+
+To ensure type safety while using the high-speed SWC compiler (which skips type-checking during transpilation), you should run the following command before building or committing code:
+
+* Check all services:
+
+  ```bash
+  docker compose exec node pnpm check-types
+  #or
+  make checkTypes
+  ```
+  
+* Check a specific service:
+  ```bash
+  docker compose exec node pnpm --filter=service_name check-types
+  #or
+  make checkTypes filter=service_name
+  ```
+
+### 2. [Build Services](#build-services)
+
+### 3. Run production mode
+
 * Start all services:
 
   ```bash
@@ -379,6 +402,26 @@ pnpm dev --filter=auth-service
 
 #### Production mode
 
+### 1. Check types
+
+To ensure type safety while using the high-speed SWC compiler (which skips type-checking during transpilation), you should run the following command before building or committing code:
+
+Check all services:
+
+```bash
+pnpm check-types
+```
+
+Check a specific service:
+```bash
+pnpm --filter=service_name check-types
+```
+
+---
+
+### 2. [Build](#build)
+
+### 3. Run production mode
 Start all services:
 
 ```bash
@@ -494,6 +537,13 @@ docker compose run --rm kong-deck gateway sync /app/kong-dev.yaml
 * Make sure `.env` and configuration files (`apisix-*.yaml`, `kong-*.yaml`) are properly set before running migrations or gateway sync commands.
 * Use `pnpm --filter=<service>` to target specific microservices efficiently.
 * If using Docker, ensure Docker and Docker Compose are running before executing commands.
+* If Git Pre-commit (Husky) is not working:
+
+  * Ensure you have run pnpm install at the root to trigger the prepare script.
+
+  * For Linux/macOS users, grant execution permission: chmod +x .husky/pre-commit.
+
+  * Verify the hooks path by running: git config core.hooksPath. It should return .husky.
 ---
 
 **© Nest Turbo Starter — Monorepo, Microservice Backend System**
