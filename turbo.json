@@ -2,55 +2,45 @@
   "$schema": "https://turborepo.org/schema.json",
   "tasks": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "dist/**"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
     },
     "test": {
-      "dependsOn": [
-        "build"
-      ],
-      "outputs": [
-        "coverage/**"
-      ]
+      "dependsOn": ["build"],
+      "outputs": ["coverage/**"]
     },
     "start:dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": [
-        "^start:dev"
-      ],
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        ".env*"
-      ]
+      "dependsOn": [],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "build:clean": {
-      "cache": false,
-      "persistent": true
+      "cache": false
+    },
+    "check-types": {
+      "cache": true,
+      "inputs": [
+        "**/*.ts",
+        "!**/node_modules/**",
+        "!**/dist/**",
+        "!**/coverage/**",
+        "tsconfig.json",
+        "tsconfig.build.json"
+      ]
     },
     "start:prod": {
       "cache": false,
       "persistent": true,
-      "dependsOn": [
-        "build"
-      ]
+      "dependsOn": ["build"]
     },
     "migration:up": {
       "cache": false,
-      "persistent": true,
-      "dependsOn": [
-        "build"
-      ]
+      "persistent": false,
+      "dependsOn": ["build"]
     }
   },
-  "globalDependencies": [
-    ".env",
-    "tsconfig.json"
-  ],
+  "globalDependencies": [".env", "tsconfig.json"],
   "globalEnv": [
     "TZ",
     "NODE_ENV",

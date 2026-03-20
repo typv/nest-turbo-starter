@@ -10,3 +10,5 @@
 
 /tmp
 **/*.d.ts
+
+**/metadata.ts

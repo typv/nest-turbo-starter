@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "start:dev": "tsup --watch",
+    "start:dev-backup": "tsup --watch",
     "dev": "email dev"
   },
   "dependencies": {

@@ -28,5 +28,6 @@
         "libs/email-template/*"
       ]
     }
-  }
+  },
+  "ts-node": { "require": ["tsconfig-paths/register"] }
 }
