@@ -22,8 +22,9 @@
       "cache": true,
       "inputs": [
         "**/*.ts",
-        "!node_modules/**",
-        "!dist/**",
+        "!**/node_modules/**",
+        "!**/dist/**",
+        "!**/coverage/**",
         "tsconfig.json",
         "tsconfig.build.json"
       ]
