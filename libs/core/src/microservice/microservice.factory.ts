@@ -1,4 +1,4 @@
-import { kafkaConfiguration, rabbitmqConfiguration, tcpConfiguration } from '@app/common';
+import { kafkaConfiguration, rabbitmqConfiguration } from '@app/common';
 import { ConfigService, ConfigType } from '@nestjs/config';
 import { CustomClientOptions, Transport } from '@nestjs/microservices';
 import {
@@ -34,7 +34,7 @@ export class MicroserviceFactory {
       producer: {
         allowAutoTopicCreation: true,
         idempotent: true,
-        maxInFlightRequests: 5,
+        maxInFlightRequests: 1, // must be 1 when idempotent=true to prevent out-of-order sequence errors
         acks: 1,
         // retry: {
         //   retries: 5,
