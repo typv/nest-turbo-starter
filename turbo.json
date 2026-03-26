@@ -39,6 +39,10 @@
       "cache": false,
       "persistent": false,
       "dependsOn": ["build"]
+    },
+    "lint": {
+      "cache": true,
+      "inputs": ["{src,apps,libs,test}/**/*.ts", "tsconfig.json"]
     }
   },
   "globalDependencies": [".env", "tsconfig.json"],
