@@ -9,6 +9,7 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "outDir": "./dist",
+    "rootDir": "./src",
     "baseUrl": "./",
     "incremental": true,
     "forceConsistentCasingInFileNames": true,
@@ -19,10 +20,13 @@
     "noFallthroughCasesInSwitch": false,
     "composite": true,
     "jsx": "react-jsx",
-    "paths": {}
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "references": [{ "path": "../../libs/common" }, { "path": "../../libs/core" }],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
-  }
+  },
+  "include": ["./src"]
 }
