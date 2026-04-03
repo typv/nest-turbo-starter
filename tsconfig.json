@@ -1,31 +1,36 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "target": "ES2023",
-    "baseUrl": ".",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "ESNext",
+    "ignoreDeprecations": "6.0",
     "composite": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
+    "strict": false,
+    "types": ["*"],
+    "noUncheckedSideEffectImports": false,
+    "libReplacement": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "@app/common": [
-        "libs/common/src/index.ts"
+        "./libs/common/src/index.ts"
       ],
       "@app/common/*": [
-        "libs/common/src/*"
+        "./libs/common/src/*"
       ],
       "@app/core": [
-        "libs/core/src/index.ts"
+        "./libs/core/src/index.ts"
       ],
       "@app/core/*": [
-        "libs/core/src/*"
+        "./libs/core/src/*"
       ],
       "@app/email-template": [
-        "libs/email-template/index.ts"
+        "./libs/email-template/index.ts"
       ],
       "@app/email-template/*": [
-        "libs/email-template/*"
+        "./libs/email-template/*"
       ]
     }
   },
