@@ -12,3 +12,4 @@
 **/*.d.ts
 
 **/metadata.ts
+**/tsconfig.build.tsbuildinfo
