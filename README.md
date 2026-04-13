@@ -74,9 +74,9 @@ This project implements a robust, containerized microservices architecture desig
 |------------------|---------|---------------------------------------|
 | Node.js          | 22.15   | JavaScript runtime                    |
 | NestJS           | 11      | Backend framework                     |
-| TypeScript       | 5.x     | Type-safe language                    |
+| TypeScript       | 6.x     | Type-safe language                    |
 | PostgreSQL       | 16      | Main relational DB                    |
-| MikroORM         | 6.x     | ORM                                   |
+| MikroORM         | 7.x     | ORM                                   |
 | Redis            | 8.0     | Cache & queue backend                 |
 | pnpm             | 10.x    | Monorepo package manager              |
 | Kafka (optional) | 4.x     | Event streaming & async communication |
