@@ -18,15 +18,17 @@
     "@react-email/preview-server": "^5.0.1",
     "@react-email/render": "^2.0.0",
     "@react-email/tailwind": "^2.0.0",
+    "@rollup/rollup-darwin-arm64": "4.60.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@esbuild/darwin-arm64": "0.27.7",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.1",
-    "next": "^15.3.2",
+    "next": "16.2.3",
     "react-email": "5.0.1",
-    "tsup": "^8.5.0",
+    "tsup": "8.5.1",
     "typescript": "^5.8.3"
   },
   "peerDependencies": {

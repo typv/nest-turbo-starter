@@ -26,10 +26,12 @@
   },
   "packageManager": "pnpm@10.17.0",
   "devDependencies": {
-    "@mikro-orm/cli": "^6.5.8",
+    "@mikro-orm/cli": "7.0.10",
     "@nestjs/cli": "^11.0.0",
     "@nestjs/testing": "^11.1.17",
+    "@oxlint/binding-darwin-arm64": "^1.59.0",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@turbo/darwin-arm64": "^2.9.6",
     "@types/express": "^5.0.0",
     "@types/google-libphonenumber": "^7.4.30",
     "@types/jest": "^29.5.14",

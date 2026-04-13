@@ -1,4 +1,10 @@
-import { getAppCommonConfig, getWinstonConfig, logBootstrapInfo, setupSwagger } from '@app/common';
+/* eslint-disable no-unused-vars */
+import {
+  getAppCommonConfig,
+  getWinstonConfig,
+  logBootstrapInfo,
+  setupSwagger,
+} from '@app/common';
 import { PayloadValidationPipe } from '@app/common';
 import {
   MicroserviceConfigOptions,
@@ -13,6 +19,8 @@ import chalk from 'chalk';
 import requestId from 'express-request-id';
 import helmet from 'helmet';
 import { WinstonModule } from 'nest-winston';
+// eslint-disable-next-line import/no-unassigned-import
+import 'reflect-metadata';
 import { getAppConfig } from 'src/config/app.config';
 import { AppModule } from './modules/app.module';
 

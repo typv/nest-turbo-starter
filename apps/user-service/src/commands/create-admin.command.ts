@@ -47,7 +47,7 @@ export class CreateAdminCommand extends CommandRunner {
         role: Role.Admin,
       };
       const newAdmin = em.create(User, userData);
-      await em.persistAndFlush(newAdmin);
+      await em.persist(newAdmin).flush();
       console.log(chalk.green('Create admin successfully.'));
     } catch (err) {
       console.log(chalk.green('CreateAdminCommand Error: '), err);
