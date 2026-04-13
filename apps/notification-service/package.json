@@ -76,8 +76,8 @@
     "rimraf": "^6.0.1",
     "rxjs": "^7.8.1",
     "winston": "^3.17.0",
-    "handlebars": "4.7.8",
-    "nodemailer": "^7.0.3"
+    "handlebars": "4.7.9",
+    "nodemailer": "8.0.5"
   },
   "jest": {
     "moduleFileExtensions": [

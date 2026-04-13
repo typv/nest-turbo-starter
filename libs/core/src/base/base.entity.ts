@@ -1,6 +1,6 @@
-import { PrimaryKey, Property } from '@mikro-orm/core';
+import { PrimaryKey, Property } from '@mikro-orm/decorators/legacy';
 import { Exclude } from 'class-transformer';
-import { v4 } from 'uuid';
+import { v7 } from 'uuid';
 
 export abstract class BaseEntity<T = any> {
   constructor(partial?: Partial<T>) {
@@ -10,7 +10,7 @@ export abstract class BaseEntity<T = any> {
   }
 
   @PrimaryKey({ type: 'uuid' })
-  id: string = v4();
+  id: string = v7();
 
   @Property({ type: 'timestamp with time zone', onCreate: () => new Date() })
   createdAt: Date = new Date();

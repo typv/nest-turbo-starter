@@ -1,7 +1,7 @@
 import { Migrator } from '@mikro-orm/migrations';
 import { MikroOrmModuleOptions } from '@mikro-orm/nestjs';
 import path from 'path';
-import { databaseConfig } from 'src/config/database.config';
+import { databaseConfig } from './src/config/database.config';
 
 const cliConfig = {
   ...databaseConfig,

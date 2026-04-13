@@ -1,7 +1,8 @@
 import { Gender, Role } from '@app/common';
-import { Entity, EntityRepositoryType, Filter, Hidden, Property } from '@mikro-orm/core';
 import { BaseEntity } from '@app/core';
-import { UserRepository } from 'src/data-access/user/user.repository';
+import { EntityRepositoryType, Hidden } from '@mikro-orm/core';
+import { Entity, Filter, Property } from '@mikro-orm/decorators/legacy';
+import { UserRepository } from './user.repository';
 
 @Filter({
   name: 'softDelete',

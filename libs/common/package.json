@@ -20,8 +20,9 @@
     }
   },
   "dependencies": {
-    "@mikro-orm/core": "^6.5.2",
-    "@mikro-orm/postgresql": "^6.5.2",
+    "@mikro-orm/core": "7.0.10",
+    "@mikro-orm/postgresql": "7.0.10",
+    "@mikro-orm/decorators": "7.0.10",
     "@nestjs/common": "11.1.19",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "11.1.19",

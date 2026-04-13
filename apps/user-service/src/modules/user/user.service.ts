@@ -47,7 +47,7 @@ export class UserService {
       password: hashedPassword,
     });
 
-    await this.em.persistAndFlush(user);
+    await this.em.persist(user).flush();
 
     return plainToInstance(CreateUserResponseDto, user);
   }
@@ -95,7 +95,7 @@ export class UserService {
     }
 
     // Remove id from data since we don't want to update it
-    const { id, ...updateData } = data;
+    const { ...updateData } = data;
 
     wrap(user).assign(updateData);
     await this.em.flush();
