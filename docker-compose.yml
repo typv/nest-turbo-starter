@@ -143,6 +143,8 @@ services:
       - .env
     networks:
       - nest-turbo-network
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
 
   apisix-homepage:
     image: nginx:1.29-alpine
