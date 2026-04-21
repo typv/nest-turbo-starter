@@ -1,14 +1,14 @@
 import * as dotenv from 'dotenv';
 import { NodeEnv } from '@app/common';
+import { ReflectMetadataProvider } from '@mikro-orm/decorators/legacy';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { registerAs } from '@nestjs/config';
 import * as entities from '../data-access/all.entity';
 
 dotenv.config();
 
 export const databaseConfig = {
-  metadataProvider: TsMorphMetadataProvider,
+  metadataProvider: ReflectMetadataProvider,
   driver: PostgreSqlDriver,
   dbName: process.env.USER_SERVICE_DB_DATABASE || '',
   host: process.env.USER_SERVICE_DB_HOST || 'localhost',

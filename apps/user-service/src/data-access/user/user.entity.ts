@@ -13,16 +13,16 @@ import { UserRepository } from './user.repository';
 export class User extends BaseEntity<User> {
   [EntityRepositoryType]?: UserRepository;
 
-  @Property()
+  @Property({ type: 'string' })
   email: string;
 
-  @Property({ nullable: true })
+  @Property({ type: 'string', nullable: true })
   firstName: string;
 
-  @Property({ nullable: true })
+  @Property({ type: 'string', nullable: true })
   lastName: string;
 
-  @Property({ nullable: true })
+  @Property({ type: 'string', nullable: true })
   fullName: string;
 
   @Property({ type: 'date', nullable: true })
@@ -31,36 +31,36 @@ export class User extends BaseEntity<User> {
   @Property({ type: 'varchar', nullable: true })
   gender: Gender;
 
-  @Property({ nullable: true })
+  @Property({ type: 'string', nullable: true })
   phoneNumber: string;
 
-  @Property({ nullable: true })
+  @Property({ type: 'string', nullable: true })
   avatar: string;
 
-  @Property({ default: true })
+  @Property({ type: 'boolean', default: true })
   isActive: boolean;
 
-  @Property({ hidden: true })
+  @Property({ type: 'string', hidden: true })
   password: Hidden<string>;
 
-  @Property({ default: false })
+  @Property({ type: 'boolean', default: false })
   emailVerified: boolean;
 
-  @Property({ type: 'varchar' })
+  @Property({ type: 'string' })
   role: Role;
 
   @Property({ type: 'date', nullable: true })
   passwordChangedAt: Date;
 
-  @Property({ nullable: true })
+  @Property({ type: 'string', nullable: true })
   googleId: string;
 
-  @Property({ nullable: true })
+  @Property({ type: 'string', nullable: true })
   googleName: string;
 
-  @Property({ nullable: true })
+  @Property({ type: 'string', nullable: true })
   googleAvatar: string;
 
-  @Property({ fieldName: 'is_2fa_enabled', default: false })
+  @Property({ type: 'boolean', fieldName: 'is_2fa_enabled', default: false })
   is2faEnabled: boolean;
 }
