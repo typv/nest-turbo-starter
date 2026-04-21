@@ -16,7 +16,7 @@ export class AuthBaseDto {
     type: String,
     required: true,
     validated: true,
-    example: 'Pass@123',
+    example: '12345678Aa@',
   })
   @MaxLength(50)
   @IsStrongPassword({

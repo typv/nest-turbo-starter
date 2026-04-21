@@ -9,17 +9,11 @@ A high-performance, monorepo microservices platform built with NestJS, optimized
 * [📦 Monorepo Structure](#-monorepo-structure)
 * [✅ Tech Stacks](#-tech-stacks)
 * [🛠️ Installation Preparation](#-installation-preparation)
-* [🐳 Build with Docker](#build-with-docker-)
-  * [Setup Docker](#setup-docker)
-  * [Install Dependencies](#install-dependencies)
-  * [Build Services](#build-services)
-  * [Run Database Migrations](#run-database-migrations)
-  * [Start Microservices](#start-microservices)
-* [🧑‍💻 Manual Build](#-manual-build)
+* [🧑‍💻 Build](#-build)
   * [Prerequisites](#prerequisites)
   * [Environment Setup](#environment-setup)
   * [Install Dependencies](#install-dependencies-1)
-  * [Build](#build)
+  * [Build Applications](#build-applications)
   * [Run Database Migrations](#run-database-migrations-1)
   * [Start Microservices](#start-microservices-1)
 * [🌐 API Gateway Configuration](#-api-gateway-configuration)
@@ -133,9 +127,13 @@ This project implements a robust, containerized microservices architecture desig
 > - Make sure to add these variables of **root** to turbo.json (or your monorepo configuration)
 ---
 
-# Build with Docker 🐳
+# 🧑‍💻 Build
 
-### Setup Docker
+---
+
+### Prerequisites
+
+#### Setup Docker
 
 Build and start all containers:
 
@@ -143,188 +141,13 @@ Build and start all containers:
 docker compose up -d --build
 ```
 
----
-
-### Install Dependencies
-
-Install dependencies inside the Node container:
-
-```bash
-docker compose exec node pnpm install
-```
-
----
-
-### Build Services
-
-#### Build all services
-
-  ```bash
-  docker compose exec node pnpm build
-  #or
-  make buildAll
-  ```
-
-#### Build a single service
-
-  ```bash
-  docker compose exec node pnpm --filter=service_name build
-  #or
-  make buildAll filter=service_name
-  ```
-
-#### Build all libraries
-
-  ```bash
-  docker compose exec node pnpm build --filter="./libs/*"
-  #or
-  make buildLibs
-  ```
-
----
-
-### Run Database Migrations
-
-#### Create migration file
-
-  ```bash
-  # Generate a migration script based on entities (recommended)
-  docker compose exec node pnpm --filter=service_name migration:create --name migration_name
-  # Create blank file
-  docker compose exec node pnpm --filter=service_name migration:createBlank --name migration_name 
-    
-  ```
-
-#### Run migrations for all services
-
-  ```bash
-  docker compose exec node pnpm migrate
-  #or
-  make migrate
-  ```
-
-#### Run migrations for a specific service
-
-  ```bash
-  docker compose exec node pnpm --filter=service_name migration:up
-  #or
-  make migrate filter=service_name
-  
-  # Example:
-  docker compose exec node pnpm --filter=user-service migration:up
-  make migrate filter=user-service
-  ```
-
----
-
-### Start Microservices
-
-#### 🧩 Development Mode
-
-* Start all services:
-
-  ```bash
-  docker compose exec node pnpm dev
-  #or
-  make dev
-  ```
-
-* Start a single service:
-
-  ```bash
-  docker compose exec node pnpm dev --filter=service_name
-  #or
-  make dev filter=service_name
-  
-  # Example:
-  docker compose exec node pnpm dev --filter=auth-service
-  make dev filter=auth-service
-  ```
-
-#### 🚀 Production Mode
-
-### 1. Check types
-
-To ensure type safety while using the high-speed SWC compiler (which skips type-checking during transpilation), you should run the following command before building or committing code:
-
-* Check all services:
-
-  ```bash
-  docker compose exec node pnpm check-types
-  #or
-  make checkTypes
-  ```
-  
-* Check a specific service:
-  ```bash
-  docker compose exec node pnpm --filter=service_name check-types
-  #or
-  make checkTypes filter=service_name
-  ```
-
-### 2. [Build Services](#build-services)
-
-### 3. Run production mode
-
-* Start all services:
-
-  ```bash
-  docker compose exec node pnpm prod
-  #or
-  make prod
-  ```
-
-* Start a single service:
-
-  ```bash
-  docker compose exec node pnpm prod --filter=service_name
-  #or
-  make prod filter=service_name
-  ```
-
----
-
-# 🧑‍💻 Manual Build
-
-If you prefer to run the Node application **without Docker**, follow these steps.
-
----
-
-### Prerequisites
-
-#### Create Only Required Docker Containers
-
-If you want to run microservices **manually** while still using Docker for dependencies (e.g., database, Redis, API gateway), you can start only the required containers.
-
-#### Option 1 — Using `docker-compose-dev.yml`
-
-Start all necessary infrastructure containers (e.g., PostgreSQL, Redis, APISIX):
-
-```bash
-docker compose -f docker-compose-dev.yml up -d --build
-```
-
-#### Option 2 — Start Specific Containers
-
-You can also start individual containers as needed:
-
-```bash
-docker compose up -d db
-docker compose up -d redis
-docker compose up -d apisix
-```
-
-> 💡 **Tip:** This approach is ideal for local development when running Node.js services directly on your host machine instead of inside Docker.
-
-
 #### `pnpm` installed globally:
   ```bash
   npm install -g pnpm
   ```
 
----
 
-### Environment Setup
+#### Environment Setup
 
 Copy and configure environment variables:
 
@@ -352,7 +175,7 @@ pnpm --filter=auth-service install
 
 ---
 
-### Build
+### Build Applications
 
 Build all microservices:
 
@@ -419,7 +242,7 @@ pnpm --filter=service_name check-types
 
 ---
 
-### 2. [Build](#build)
+### 2. [Build Applications](#build-applications)
 
 ### 3. Run production mode
 Start all services:
