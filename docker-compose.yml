@@ -1,28 +1,6 @@
 version: '3'
 
 services:
-  node:
-    build:
-      context: .
-      dockerfile: .docker/compose/nodejs/Dockerfile.local
-    container_name: nest_turbo_node
-    extends:
-      file: .docker/compose/nodejs/node.yml
-      service: node
-    volumes:
-      - ${PWD}:/work
-    ports:
-      - '3300:3300'
-      - '3301:3301'
-      - '3302:3302'
-      - '3303:3303'
-    depends_on:
-      - db
-    networks:
-      - nest-turbo-network
-    env_file:
-      - .env
-
   db:
     container_name: nest_turbo_db
     extends:
