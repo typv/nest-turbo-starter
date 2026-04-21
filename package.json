@@ -58,7 +58,8 @@
     "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",
     "turbo": "latest",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "tsx": "4.21.0"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,jsx}": [
