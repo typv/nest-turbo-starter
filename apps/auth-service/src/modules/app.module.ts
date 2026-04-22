@@ -51,6 +51,18 @@ import { AuthModule } from './auth';
       inject: [appConfiguration.KEY, appCommonConfiguration.KEY],
     }),
     MicroserviceModule.registerAsync([
+      // {
+      //   name: MicroserviceName.NotificationService,
+      //   transport: Transport.RMQ,
+      //   inject: [ConfigService],
+      //   useFactory: (configService: ConfigService) => {
+      //     const rabbitmqConfig = configService.get('rabbitmq');
+      //     return {
+      //       ...rabbitmqConfig,
+      //       queue: MicroserviceName.NotificationService
+      //     };
+      //   },
+      // },
       {
         name: MicroserviceName.UserService,
         transport: Transport.TCP,
