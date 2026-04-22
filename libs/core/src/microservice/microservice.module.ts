@@ -1,7 +1,7 @@
 import { kafkaConfiguration, rabbitmqConfiguration } from '@app/common';
-import { DynamicModule, FactoryProvider, Module, Provider, Type } from '@nestjs/common';
+import { DynamicModule, FactoryProvider, Module, Provider } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ClientOptions, ClientProxyFactory, Transport } from '@nestjs/microservices';
+import { ClientOptions, ClientProxyFactory } from '@nestjs/microservices';
 import { MS_INJECTION_TOKEN } from './microservice.constant';
 import { MicroserviceFactory } from './microservice.factory';
 import {
@@ -55,14 +55,14 @@ export class MicroserviceModule {
 
   static registerAsync(clients: MicroserviceClientAsyncDefinition[]): DynamicModule {
     const asyncProviders: Provider[] = clients.map((client) => ({
-      provide: client.name + '_ASYNC_CONFIG',
+      provide: `${client.name}_${client.transport}_ASYNC_CONFIG`,
       useFactory: client.useFactory,
       inject: client.inject || [],
     }));
 
     const clientProviders: FactoryProvider[] = clients.map((client) => {
       const uniqueProvideToken = MS_INJECTION_TOKEN(client.name, client.transport);
-      const asyncConfigToken = client.name + '_ASYNC_CONFIG';
+      const asyncConfigToken = `${client.name}_${client.transport}_ASYNC_CONFIG`;
 
       return {
         provide: uniqueProvideToken,

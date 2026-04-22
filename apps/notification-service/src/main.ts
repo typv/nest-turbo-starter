@@ -1,4 +1,9 @@
-import { getAppCommonConfig, getWinstonConfig, logBootstrapInfo, setupSwagger } from '@app/common';
+import {
+  getAppCommonConfig,
+  getWinstonConfig,
+  logBootstrapInfo,
+  setupSwagger,
+} from '@app/common';
 import { PayloadValidationPipe } from '@app/common';
 import { MicroserviceConfigOptions, MicroserviceFactory } from '@app/core';
 import { ClassSerializerInterceptor } from '@nestjs/common';
@@ -49,6 +54,16 @@ async function bootstrap() {
   //   transport: Transport.KAFKA,
   // } as MicroserviceConfigOptions);
   // await app.connectMicroservice<MicroserviceOptions>(kafkaConsumerConfig);
+
+  // const rabbitMQConsumerConfig = msFactory.createConfig({
+  //   serviceName: MicroserviceName.NotificationService,
+  //   transport: Transport.RMQ,
+  //   options: {
+  //     urls: configService.get('rabbitmq.urls'),
+  //     queue: MicroserviceName.NotificationService,
+  //   },
+  // } as MicroserviceConfigOptions);
+  // await app.connectMicroservice<MicroserviceOptions>(rabbitMQConsumerConfig);
 
   const tcpListener = configService.get('tcp.notificationService');
   const tcpConfig = msFactory.createConfig({

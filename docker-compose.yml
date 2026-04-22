@@ -48,48 +48,61 @@ services:
     networks:
       - nest-turbo-network
 
-  #  kafka:
-  #    container_name: nest_turbo_kafka
-  #    extends:
-  #      file: .docker/compose/kafka/kafka.yml
-  #      service: kafka
-  #    networks:
-  #      - nest-turbo-network
-  #    volumes:
-  #      - ${PWD}/.docker/volumes/kafka_data:/var/lib/kafka/data
-  #    ports:
-  #      - '9082:9092'
-  #      - '9086:9094'
-  #    environment:
-  #      KAFKA_CLUSTER_ID: '4b92c42d627c44e995f33f6756857945'
-  #      KAFKA_NODE_ID: 1
-  #      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-  #      KAFKA_PROCESS_ROLES: broker,controller
-  #      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-  #      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
-  #      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,OUTSIDE://:9094
-  #      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,OUTSIDE://localhost:9086
-  #      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,OUTSIDE:PLAINTEXT
-  #      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
-  #      KAFKAJS_NO_PARTITIONER_WARNING: 1
-  #
-  #  kafkaui:
-  #    container_name: nest_turbo_kafka_ui
-  #    extends:
-  #      file: .docker/compose/kafka/kafka.yml
-  #      service: kafka_ui
-  #    networks:
-  #      - nest-turbo-network
-  #    depends_on:
-  #      - kafka
-  #    ports:
-  #      - '18082:8080'
-  #    environment:
-  #      KAFKA_CLUSTERS_0_NAME: local
-  #      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
-  #      AUTH_TYPE: LOGIN_FORM
-  #      SPRING_SECURITY_USER_NAME: admin
-  #      SPRING_SECURITY_USER_PASSWORD: secret
+#  kafka:
+#    container_name: nest_turbo_kafka
+#    extends:
+#      file: .docker/compose/kafka/kafka.yml
+#      service: kafka
+#    networks:
+#      - nest-turbo-network
+#    volumes:
+#      - ${PWD}/.docker/volumes/kafka_data:/var/lib/kafka/data
+#    ports:
+#      - '9082:9092'
+#      - '9086:9094'
+#    environment:
+#      KAFKA_CLUSTER_ID: '4b92c42d627c44e995f33f6756857945'
+#      KAFKA_NODE_ID: 1
+#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#      KAFKA_PROCESS_ROLES: broker,controller
+#      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+#      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+#      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,OUTSIDE://:9094
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,OUTSIDE://localhost:9086
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,OUTSIDE:PLAINTEXT
+#      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+#      KAFKAJS_NO_PARTITIONER_WARNING: 1
+#
+#  kafkaui:
+#    container_name: nest_turbo_kafka_ui
+#    extends:
+#      file: .docker/compose/kafka/kafka.yml
+#      service: kafka_ui
+#    networks:
+#      - nest-turbo-network
+#    depends_on:
+#      - kafka
+#    ports:
+#      - '18082:8080'
+#    environment:
+#      KAFKA_CLUSTERS_0_NAME: local
+#      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+#      AUTH_TYPE: LOGIN_FORM
+#      SPRING_SECURITY_USER_NAME: admin
+#      SPRING_SECURITY_USER_PASSWORD: secret
+#
+#  rabbitmq:
+#    container_name: ih_rabbitmq
+#    image: rabbitmq:3.12-management-alpine
+#    environment:
+#      - RABBITMQ_DEFAULT_USER=root
+#      - RABBITMQ_DEFAULT_PASS=secret
+#    ports:
+#      - 56725:5672
+#      - 15682:15672
+#    restart: no
+#    networks:
+#      - nest-turbo-network
 
   etcd:
     extends:
