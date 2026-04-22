@@ -86,6 +86,7 @@
     "MAIL_USERNAME",
     "MAIL_PASSWORD",
     "MAIL_SENDER",
-    "MAIL_SECURE"
+    "MAIL_SECURE",
+    "RABBITMQ_URLS"
   ]
 }
