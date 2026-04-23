@@ -12,17 +12,23 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreateBoilerPlateBodyDto, CreateBoilerPlateResponseDto } from './dto/create-boiler-plate.dto';
+import { BoilerPlateService } from './boiler-plate.service';
+import {
+  CreateBoilerPlateBodyDto,
+  CreateBoilerPlateResponseDto,
+} from './dto/create-boiler-plate.dto';
 import { GetBoilerPlateDetailResponseDto } from './dto/get-boiler-plate-details.dto';
 import {
   GetBoilerPlateListQueryDto,
   GetBoilerPlateListResponseDto,
 } from './dto/get-boiler-plate-list.dto';
-import { UpdateBoilerPlateBodyDto, UpdateBoilerPlateResponseDto } from './dto/update-boiler-plate.dto';
-import { BoilerPlateService } from './boiler-plate.service';
+import {
+  UpdateBoilerPlateBodyDto,
+  UpdateBoilerPlateResponseDto,
+} from './dto/update-boiler-plate.dto';
 
 @Controller('boiler-plate')
-@ApiTags('Product')
+@ApiTags('Boiler Plate')
 @ApiBearerAuth()
 export class BoilerPlateController {
   constructor(private readonly boilerPlateService: BoilerPlateService) {}
@@ -67,7 +73,9 @@ export class BoilerPlateController {
       summary: `Api getBoilerPlateDetail`,
     },
   })
-  async getBoilerPlateDetail(@Param('id') id: string): Promise<GetBoilerPlateDetailResponseDto> {
+  async getBoilerPlateDetail(
+    @Param('id') id: string,
+  ): Promise<GetBoilerPlateDetailResponseDto> {
     return this.boilerPlateService.getBoilerPlateDetail(id);
   }
 
