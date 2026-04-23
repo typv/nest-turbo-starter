@@ -1,11 +1,11 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { Product } from 'src/data-access/product';
-import { ProductConsumer } from './consumer/product.consumer';
-import { ProductController } from './product.controller';
-import { ProductService } from './product.service';
-import { ProductSharedModule } from './shared/product-shared.module';
+import { Product } from 'src/data-access/boiler-plate';
+import { ProductConsumer } from './consumer/boiler-plate.consumer';
+import { ProductController } from './boiler-plate.controller';
+import { ProductService } from './boiler-plate.service';
+import { ProductSharedModule } from './shared/boiler-plate-shared.module';
 
 @Module({
   imports: [

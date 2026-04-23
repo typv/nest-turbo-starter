@@ -4,14 +4,14 @@ import { Controller, Inject, UseFilters, UseInterceptors } from '@nestjs/common'
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { plainToInstance } from 'class-transformer';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { ProductRepository } from 'src/data-access/product';
+import { ProductRepository } from 'src/data-access/boiler-plate';
 import { Logger } from 'winston';
 import {
   TcpGetProductPayloadDto,
   TcpGetProductResponseDto,
-} from './dto/tcp-get-product.dto';
-import { ProductService } from '../product.service';
-import { ProductHelperService } from '../shared/product-helper.service';
+} from './dto/tcp-get-boiler-plate.dto';
+import { ProductService } from '../boiler-plate.service';
+import { ProductHelperService } from '../shared/boiler-plate-helper.service';
 
 @UseInterceptors(MikroOrmMicroserviceInterceptor)
 @UseFilters(AllExceptionFilter)

@@ -7,31 +7,21 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  Patch,
   Post,
   Put,
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { BulkDeleteProductBodyDto } from './dto/bulk-delete-product.dto';
-import {
-  ChangeProductStatusBodyDto,
-  ChangeProductStatusResponseDto,
-} from './dto/change-product-status.dto';
-import { CreateProductBodyDto, CreateProductResponseDto } from './dto/create-product.dto';
-import { GetProductDetailResponseDto } from './dto/get-product-details.dto';
+import { CreateProductBodyDto, CreateProductResponseDto } from './dto/create-boiler-plate.dto';
+import { GetProductDetailResponseDto } from './dto/get-boiler-plate-details.dto';
 import {
   GetProductListQueryDto,
   GetProductListResponseDto,
-} from './dto/get-product-list.dto';
-import {
-  ReOrderProductBodyDto,
-  ReOrderProductResponseDto,
-} from './dto/re-order-product.dto';
-import { UpdateProductBodyDto, UpdateProductResponseDto } from './dto/update-product.dto';
-import { ProductService } from './product.service';
+} from './dto/get-boiler-plate-list.dto';
+import { UpdateProductBodyDto, UpdateProductResponseDto } from './dto/update-boiler-plate.dto';
+import { ProductService } from './boiler-plate.service';
 
-@Controller('product')
+@Controller('boiler-plate')
 @ApiTags('Product')
 @ApiBearerAuth()
 export class ProductController {
@@ -61,7 +51,6 @@ export class ProductController {
     operation: {
       operationId: `getProductList`,
       summary: `Api getProductList`,
-      description: `Retrieve a paginated list of products. Only get product attributes with type = SIZE`,
     },
   })
   async getProductList(

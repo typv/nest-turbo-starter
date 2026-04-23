@@ -1,2 +1,2 @@
-export * from './product.repository';
-export * from './product.entity';
+export * from './boiler-plate.repository';
+export * from './boiler-plate.entity';

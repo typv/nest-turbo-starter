@@ -1,5 +1,5 @@
 {
-  "name": "product-service",
+  "name": "boiler-plate-service",
   "private": true,
   "version": "1.0.0",
   "description": "Nest TypeScript starter repository",

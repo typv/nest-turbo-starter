@@ -1,6 +1,6 @@
 import { Entity, EntityRepositoryType, Filter } from '@mikro-orm/core';
 import { BaseEntity } from 'src/data-access/base.entity';
-import { ProductRepository } from './product.repository';
+import { ProductRepository } from './boiler-plate.repository';
 
 @Filter({
   name: 'softDelete',

@@ -25,6 +25,7 @@ export class GenerateMicroservice {
       pascalCase: startCase(camelCase(name)).replace(/ /g, ''),    // e.g. MyService
       upperCase: snakeCase(name).toUpperCase(),                    // e.g. MY_SERVICE
       kebabCase: kebabCase(name),                                  // e.g. my-service
+      snakeCase: snakeCase(name),                                  // e.g. my_service
     };
 
     console.log('\n✅ Microservice name variants:');

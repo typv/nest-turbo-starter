@@ -1,1 +1,1 @@
-export * from './product/product.entity';
+export * from './boiler-plate/boiler-plate.entity';

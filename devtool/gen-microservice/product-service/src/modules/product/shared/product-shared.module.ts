@@ -1,8 +1,8 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { Product } from 'src/data-access/product';
-import { ProductHelperService } from './shared/product-helper.service';
+import { Product } from 'src/data-access/boiler-plate';
+import { ProductHelperService } from './shared/boiler-plate-helper.service';
 
 @Module({
   imports: [

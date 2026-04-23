@@ -2,16 +2,16 @@ import { PaginationResponseDto } from '@app/common';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Inject, Injectable } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { ProductRepository } from 'src/data-access/product';
+import { ProductRepository } from 'src/data-access/boiler-plate';
 import { Logger } from 'winston';
-import { CreateProductBodyDto, CreateProductResponseDto } from './dto/create-product.dto';
-import { GetProductDetailResponseDto } from './dto/get-product-details.dto';
+import { CreateProductBodyDto, CreateProductResponseDto } from './dto/create-boiler-plate.dto';
+import { GetProductDetailResponseDto } from './dto/get-boiler-plate-details.dto';
 import {
   GetProductListQueryDto,
   GetProductListResponseDto,
-} from './dto/get-product-list.dto';
-import { UpdateProductBodyDto, UpdateProductResponseDto } from './dto/update-product.dto';
-import { ProductHelperService } from './shared/product-helper.service';
+} from './dto/get-boiler-plate-list.dto';
+import { UpdateProductBodyDto, UpdateProductResponseDto } from './dto/update-boiler-plate.dto';
+import { ProductHelperService } from './shared/boiler-plate-helper.service';
 
 @Injectable()
 export class ProductService {
