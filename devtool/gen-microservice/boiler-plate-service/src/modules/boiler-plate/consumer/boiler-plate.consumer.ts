@@ -1,5 +1,5 @@
 import { AllExceptionFilter, MikroOrmMicroserviceInterceptor } from '@app/common';
-import { EntityManager } from '@mikro-orm/postgresql';
+import { EntityManager, wrap } from '@mikro-orm/core';
 import { Controller, Inject, UseFilters, UseInterceptors } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { plainToInstance } from 'class-transformer';

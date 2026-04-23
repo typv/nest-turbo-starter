@@ -8,6 +8,7 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
+    "rootDir": "./src",
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
@@ -18,7 +19,14 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "composite": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "references": [{ "path": "../../libs/common" }, { "path": "../../libs/core" }]
+  "references": [{ "path": "../../libs/common" }, { "path": "../../libs/core" }],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
+  "include": ["./src"]
 }

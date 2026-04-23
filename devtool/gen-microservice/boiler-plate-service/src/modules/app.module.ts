@@ -9,6 +9,7 @@ import {
   tcpConfiguration,
 } from '@app/common';
 import { MicroserviceModule, MicroserviceName } from '@app/core';
+import { BaseRepository } from '@app/core';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService, ConfigType } from '@nestjs/config';
@@ -16,7 +17,6 @@ import { APP_FILTER } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
 import { WinstonModule } from 'nest-winston';
 import { appConfiguration, dbConfiguration } from 'src/config';
-import { BaseRepository } from 'src/data-access/base.repository';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BoilerPlateModule } from './boiler-plate';
@@ -58,16 +58,16 @@ import { BoilerPlateModule } from './boiler-plate';
       },
       inject: [appConfiguration.KEY, appCommonConfiguration.KEY],
     }),
-    MicroserviceModule.registerAsync([
-      {
-        name: MicroserviceName.MerchantService,
-        transport: Transport.TCP,
-        inject: [ConfigService],
-        useFactory: (configService: ConfigService) => {
-          return {}; // return { ...configService.get('abc.xyz') };
-        },
-      },
-    ]),
+    // MicroserviceModule.registerAsync([
+    //   {
+    //     name: MicroserviceName.MerchantService,
+    //     transport: Transport.TCP,
+    //     inject: [ConfigService],
+    //     useFactory: (configService: ConfigService) => {
+    //       return {}; // return { ...configService.get('abc.xyz') };
+    //     },
+    //   },
+    // ]),
     // Business Logic Modules
     BoilerPlateModule,
   ],

@@ -1,5 +1,5 @@
 import { PaginationResponseDto } from '@app/common';
-import { EntityManager } from '@mikro-orm/postgresql';
+import { EntityManager, wrap } from '@mikro-orm/core';
 import { Inject, Injectable } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { BoilerPlateRepository } from 'src/data-access/boiler-plate';

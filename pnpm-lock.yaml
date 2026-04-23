@@ -317,6 +317,118 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
 
+  apps/order-service-tmp:
+    dependencies:
+      '@app/common':
+        specifier: workspace:*
+        version: link:../../libs/common
+      '@app/core':
+        specifier: workspace:*
+        version: link:../../libs/core
+      '@mikro-orm/core':
+        specifier: 7.0.10
+        version: 7.0.10(dataloader@2.2.3)
+      '@mikro-orm/decorators':
+        specifier: 7.0.10
+        version: 7.0.10(@mikro-orm/core@7.0.10(dataloader@2.2.3))(reflect-metadata@0.2.2)
+      '@mikro-orm/migrations':
+        specifier: 7.0.10
+        version: 7.0.10(@mikro-orm/core@7.0.10(dataloader@2.2.3))
+      '@mikro-orm/nestjs':
+        specifier: 7.0.1
+        version: 7.0.1(@mikro-orm/core@7.0.10(dataloader@2.2.3))(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(reflect-metadata@0.2.2)
+      '@mikro-orm/postgresql':
+        specifier: 7.0.10
+        version: 7.0.10(@mikro-orm/core@7.0.10(dataloader@2.2.3))
+      '@mikro-orm/reflection':
+        specifier: 7.0.10
+        version: 7.0.10(@mikro-orm/core@7.0.10(dataloader@2.2.3))
+      '@nestjs/common':
+        specifier: 11.1.19
+        version: 11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/config':
+        specifier: ^4.0.2
+        version: 4.0.2(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@nestjs/core':
+        specifier: 11.1.19
+        version: 11.1.19(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.1.19)(@nestjs/platform-express@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/jwt':
+        specifier: ^11.0.0
+        version: 11.0.1(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))
+      '@nestjs/microservices':
+        specifier: 11.1.19
+        version: 11.1.19(@grpc/grpc-js@1.14.0)(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(amqp-connection-manager@5.0.0(amqplib@1.0.3))(amqplib@1.0.3)(ioredis@5.8.1)(kafkajs@2.2.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/passport':
+        specifier: ^11.0.5
+        version: 11.0.5(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(passport@0.7.0)
+      '@nestjs/platform-express':
+        specifier: ^11.0.1
+        version: 11.1.6(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)
+      '@nestjs/swagger':
+        specifier: ^11.1.6
+        version: 11.2.0(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
+      chalk:
+        specifier: ^5.4.1
+        version: 5.6.2
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.14.2
+        version: 0.14.2
+      express-request-id:
+        specifier: ^3.0.0
+        version: 3.0.0
+      helmet:
+        specifier: ^8.1.0
+        version: 8.1.0
+      kafkajs:
+        specifier: ^2.2.4
+        version: 2.2.4
+      nest-commander:
+        specifier: ^3.17.0
+        version: 3.20.1(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(@types/inquirer@8.2.12)(@types/node@22.18.10)(typescript@6.0.3)
+      nest-winston:
+        specifier: ^1.10.2
+        version: 1.10.2(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(winston@3.18.3)
+      passport:
+        specifier: ^0.7.0
+        version: 0.7.0
+      passport-jwt:
+        specifier: ^4.0.1
+        version: 4.0.1
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
+      rxjs:
+        specifier: ^7.8.1
+        version: 7.8.2
+      validatorjs:
+        specifier: ^3.22.1
+        version: 3.22.1
+      winston:
+        specifier: ^3.17.0
+        version: 3.18.3
+    devDependencies:
+      '@mikro-orm/cli':
+        specifier: 7.0.10
+        version: 7.0.10(dataloader@2.2.3)
+      '@swc/cli':
+        specifier: ^0.6.0
+        version: 0.6.0(@swc/core@1.13.5)(chokidar@4.0.3)
+      '@swc/core':
+        specifier: ^1.10.8
+        version: 1.13.5
+      supertest:
+        specifier: ^7.0.0
+        version: 7.1.4
+      webpack-node-externals:
+        specifier: ^3.0.0
+        version: 3.0.0
+
   apps/user-service:
     dependencies:
       '@app/common':

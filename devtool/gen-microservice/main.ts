@@ -43,8 +43,8 @@ export class GenerateMicroservice {
       titleCase: startCase(name), // e.g. My Service
     };
 
-    const templateDir = 'devtool/gen-microservice/boiler-plateplate-service';
-    const destDir = join('apps', names.kebabCase);
+    const templateDir = 'devtool/gen-microservice/boiler-plate-service';
+    const destDir = join('apps', `${names.kebabCase}-service`);
 
     // ── Step 1: Copy boilerplate template → apps/<name> ──────────────────
     console.log(`\n📁  Copying template → ${destDir}`);

@@ -1,5 +1,6 @@
-import { Entity, EntityRepositoryType, Filter } from '@mikro-orm/core';
-import { BaseEntity } from 'src/data-access/base.entity';
+import { BaseEntity } from '@app/core';
+import { EntityRepositoryType, Hidden } from '@mikro-orm/core';
+import { Entity, Filter, Property } from '@mikro-orm/decorators/legacy';
 import { BoilerPlateRepository } from './boiler-plate.repository';
 
 @Filter({
