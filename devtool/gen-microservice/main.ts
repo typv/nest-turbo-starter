@@ -47,18 +47,13 @@ export class GenerateMicroservice {
     const destDir = join('apps', `${names.kebabCase}-service`);
 
     // ── Step 1: Copy boilerplate template → apps/<name> ──────────────────
-    console.log(`\n📁  Copying template → ${destDir}`);
     await cp(templateDir, destDir, { recursive: true });
 
     // ── Step 2: Rename files and directories inside the destination ───────
-    console.log('\n🔁  Renaming paths...');
     await this.renamePaths(destDir, templateNames.kebabCase, names.kebabCase);
 
     // ── Step 3: Replace name patterns inside every file's content ─────────
-    console.log('\n📝  Replacing file contents...');
     await this.replaceFileContents(destDir, templateNames, names);
-
-    console.log(`\n✅  Microservice "${names.kebabCase}" generated at ${destDir}`);
   }
 
   parseOptions(val: string): string {
@@ -87,7 +82,6 @@ export class GenerateMicroservice {
         const newName = entry.name.replaceAll(from, to);
         const newPath = join(basePath, newName);
         await rename(oldPath, newPath);
-        console.log(`  ✏️  ${entry.name}  →  ${newName}`);
       }
     }
   }
@@ -129,7 +123,6 @@ export class GenerateMicroservice {
 
       if (modified) {
         await writeFile(fullPath, content, 'utf-8');
-        console.log(`  📝  ${entry.name}`);
       }
     }
   }

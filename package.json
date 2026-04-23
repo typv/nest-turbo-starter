@@ -17,6 +17,7 @@
     "check-types": "turbo run check-types",
     "prod": "turbo run start:prod",
     "migration:up": "turbo run migration:up",
+    "gen:ms": "ts-node devtool/gen-microservice/main.ts",
     "lint": "turbo run lint",
     "format": "prettier --write \"apps/**/src/**/*.ts\" \"libs/**/src/**/*.ts\""
   },
