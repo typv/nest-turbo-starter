@@ -1,7 +1,7 @@
 import { input } from '@inquirer/prompts';
 import { camelCase, kebabCase, snakeCase, startCase } from 'lodash';
 import { readdir, rename } from 'fs/promises';
-import { join } from 'path';
+import { join, dirname, basename } from 'path';
 
 export class GenerateMicroservice {
   constructor() {}
@@ -34,8 +34,16 @@ export class GenerateMicroservice {
     console.log(names)
 
     // TODO: generate microservice files using `names`
-    await this.renamePaths('devtool/gen-microservice/product-service', 'product', 'boiler-plate');
+    const templatePath = 'devtool/gen-microservice/product-service';
+    await this.renamePaths(templatePath, 'product', names.kebabCase);
 
+    // Rename the root input path itself — must be last
+    const rootName = basename(templatePath);
+    if (rootName.includes('product')) {
+      const newRoot = join(dirname(templatePath), rootName.replaceAll('product', names.kebabCase));
+      await rename(templatePath, newRoot);
+      console.log(`  ✏️  ${rootName}  →  ${basename(newRoot)}`);
+    }
   }
 
   parseOptions(val: string): string {
