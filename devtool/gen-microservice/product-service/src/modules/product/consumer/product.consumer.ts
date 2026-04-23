@@ -4,37 +4,37 @@ import { Controller, Inject, UseFilters, UseInterceptors } from '@nestjs/common'
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { plainToInstance } from 'class-transformer';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { ProductRepository } from 'src/data-access/boiler-plate';
+import { BoilerPlateRepository } from 'src/data-access/boiler-plate';
 import { Logger } from 'winston';
 import {
-  TcpGetProductPayloadDto,
-  TcpGetProductResponseDto,
+  TcpGetBoilerPlatePayloadDto,
+  TcpGetBoilerPlateResponseDto,
 } from './dto/tcp-get-boiler-plate.dto';
-import { ProductService } from '../boiler-plate.service';
-import { ProductHelperService } from '../shared/boiler-plate-helper.service';
+import { BoilerPlateService } from '../boiler-plate.service';
+import { BoilerPlateHelperService } from '../shared/boiler-plate-helper.service';
 
 @UseInterceptors(MikroOrmMicroserviceInterceptor)
 @UseFilters(AllExceptionFilter)
 @Controller()
-export class ProductConsumer {
+export class BoilerPlateConsumer {
   constructor(
     @Inject(WINSTON_MODULE_PROVIDER)
     private readonly logger: Logger,
     // repositories
     private readonly em: EntityManager,
-    private readonly boilerPlateRepository: ProductRepository,
+    private readonly boilerPlateRepository: BoilerPlateRepository,
     // services
-    private readonly boilerPlateHelperService: ProductHelperService,
-    private readonly boilerPlateService: ProductService,
+    private readonly boilerPlateHelperService: BoilerPlateHelperService,
+    private readonly boilerPlateService: BoilerPlateService,
   ) {}
 
   // just a sample, todo: delete if not needed
-  @MessagePattern('ProductMessagePattern.GetProduct') // must be enum
-  async tcpGetProduct(
-    @Payload() payload: TcpGetProductPayloadDto,
-  ): Promise<TcpGetProductResponseDto> {
+  @MessagePattern('BoilerPlateMessagePattern.GetBoilerPlate') // must be enum
+  async tcpGetBoilerPlate(
+    @Payload() payload: TcpGetBoilerPlatePayloadDto,
+  ): Promise<TcpGetBoilerPlateResponseDto> {
     // implement here
-    return plainToInstance(TcpGetProductResponseDto, {} as any, {
+    return plainToInstance(TcpGetBoilerPlateResponseDto, {} as any, {
       excludeExtraneousValues: true,
     });
   }

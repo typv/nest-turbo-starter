@@ -1,5 +1,5 @@
-export class DeleteProductResponseDto {}
+export class DeleteBoilerPlateResponseDto {}
 
-export class DeleteProductBodyDto {
+export class DeleteBoilerPlateBodyDto {
   id: string;
 }

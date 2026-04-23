@@ -1,13 +1,13 @@
-export enum ProductStatus {
+export enum BoilerPlateStatus {
   Active = 'active',
   Inactive = 'inactive',
 }
 
-export enum ProductQueueName {
-  ProductQueue = 'ProductQueue',
+export enum BoilerPlateQueueName {
+  BoilerPlateQueue = 'BoilerPlateQueue',
 }
 
-export enum ProductJobName {
-  ProductFeaturedExpires = 'ProductFeaturedExpires',
-  ProductHide = 'ProductHide',
+export enum BoilerPlateJobName {
+  BoilerPlateFeaturedExpires = 'BoilerPlateFeaturedExpires',
+  BoilerPlateHide = 'BoilerPlateHide',
 }

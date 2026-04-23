@@ -1,6 +1,6 @@
 import { PropertyDto } from '@app/common';
 
-export class BaseProductResponseDto {
+export class BaseBoilerPlateResponseDto {
   @PropertyDto()
   id: string;
 

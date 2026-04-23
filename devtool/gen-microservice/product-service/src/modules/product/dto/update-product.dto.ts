@@ -1,5 +1,5 @@
-import { BaseProductResponseDto } from './base.dto';
+import { BaseBoilerPlateResponseDto } from './base.dto';
 
-export class UpdateProductResponseDto extends BaseProductResponseDto {}
+export class UpdateBoilerPlateResponseDto extends BaseBoilerPlateResponseDto {}
 
-export class UpdateProductBodyDto {}
+export class UpdateBoilerPlateBodyDto {}

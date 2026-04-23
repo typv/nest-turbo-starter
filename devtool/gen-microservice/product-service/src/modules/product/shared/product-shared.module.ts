@@ -1,16 +1,16 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { Product } from 'src/data-access/boiler-plate';
-import { ProductHelperService } from './shared/boiler-plate-helper.service';
+import { BoilerPlate } from 'src/data-access/boiler-plate';
+import { BoilerPlateHelperService } from './shared/boiler-plate-helper.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ load: [] }),
-    MikroOrmModule.forFeature([Product]),
+    MikroOrmModule.forFeature([BoilerPlate]),
     // logic modules
   ],
-  providers: [ProductHelperService],
-  exports: [ProductHelperService],
+  providers: [BoilerPlateHelperService],
+  exports: [BoilerPlateHelperService],
 })
-export class ProductSharedModule {}
+export class BoilerPlateSharedModule {}

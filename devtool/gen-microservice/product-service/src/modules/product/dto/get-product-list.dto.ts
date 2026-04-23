@@ -1,6 +1,6 @@
 import { PaginationQueryDto } from '@app/common';
-import { BaseProductResponseDto } from './base.dto';
+import { BaseBoilerPlateResponseDto } from './base.dto';
 
-export class GetProductListResponseDto extends BaseProductResponseDto {}
+export class GetBoilerPlateListResponseDto extends BaseBoilerPlateResponseDto {}
 
-export class GetProductListQueryDto extends PaginationQueryDto {}
+export class GetBoilerPlateListQueryDto extends PaginationQueryDto {}

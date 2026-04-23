@@ -1,7 +1,7 @@
 import { PropertyDto } from '@app/common';
-import { BaseProductResponseDto } from '../../dto/base.dto';
+import { BaseBoilerPlateResponseDto } from '../../dto/base.dto';
 
-export class TcpGetProductPayloadDto {
+export class TcpGetBoilerPlatePayloadDto {
   @PropertyDto({
     type: String,
     required: true,
@@ -10,4 +10,4 @@ export class TcpGetProductPayloadDto {
   boilerPlateId: string;
 }
 
-export class TcpGetProductResponseDto extends BaseProductResponseDto {}
+export class TcpGetBoilerPlateResponseDto extends BaseBoilerPlateResponseDto {}

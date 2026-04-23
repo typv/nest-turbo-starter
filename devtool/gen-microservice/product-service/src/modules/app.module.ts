@@ -19,7 +19,7 @@ import { appConfiguration, dbConfiguration } from 'src/config';
 import { BaseRepository } from 'src/data-access/base.repository';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ProductModule } from './boiler-plate';
+import { BoilerPlateModule } from './boiler-plate';
 
 @Module({
   imports: [
@@ -69,7 +69,7 @@ import { ProductModule } from './boiler-plate';
       },
     ]),
     // Business Logic Modules
-    ProductModule,
+    BoilerPlateModule,
   ],
   controllers: [AppController],
   providers: [

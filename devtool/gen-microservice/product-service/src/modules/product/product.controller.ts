@@ -12,91 +12,91 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreateProductBodyDto, CreateProductResponseDto } from './dto/create-boiler-plate.dto';
-import { GetProductDetailResponseDto } from './dto/get-boiler-plate-details.dto';
+import { CreateBoilerPlateBodyDto, CreateBoilerPlateResponseDto } from './dto/create-boiler-plate.dto';
+import { GetBoilerPlateDetailResponseDto } from './dto/get-boiler-plate-details.dto';
 import {
-  GetProductListQueryDto,
-  GetProductListResponseDto,
+  GetBoilerPlateListQueryDto,
+  GetBoilerPlateListResponseDto,
 } from './dto/get-boiler-plate-list.dto';
-import { UpdateProductBodyDto, UpdateProductResponseDto } from './dto/update-boiler-plate.dto';
-import { ProductService } from './boiler-plate.service';
+import { UpdateBoilerPlateBodyDto, UpdateBoilerPlateResponseDto } from './dto/update-boiler-plate.dto';
+import { BoilerPlateService } from './boiler-plate.service';
 
 @Controller('boiler-plate')
 @ApiTags('Product')
 @ApiBearerAuth()
-export class ProductController {
-  constructor(private readonly boilerPlateService: ProductService) {}
+export class BoilerPlateController {
+  constructor(private readonly boilerPlateService: BoilerPlateService) {}
 
   @Post()
   @SwaggerApiDocument({
-    response: { type: CreateProductResponseDto },
-    body: { type: CreateProductBodyDto, required: true },
+    response: { type: CreateBoilerPlateResponseDto },
+    body: { type: CreateBoilerPlateBodyDto, required: true },
     operation: {
-      operationId: `createProduct`,
-      summary: `Api createProduct`,
+      operationId: `createBoilerPlate`,
+      summary: `Api createBoilerPlate`,
     },
   })
-  async createProduct(
-    @Body() body: CreateProductBodyDto,
-  ): Promise<CreateProductResponseDto> {
-    return this.boilerPlateService.createProduct(body);
+  async createBoilerPlate(
+    @Body() body: CreateBoilerPlateBodyDto,
+  ): Promise<CreateBoilerPlateResponseDto> {
+    return this.boilerPlateService.createBoilerPlate(body);
   }
 
   @Get()
   @SwaggerApiDocument({
     response: {
-      type: GetProductListResponseDto,
+      type: GetBoilerPlateListResponseDto,
       isPagination: true,
     },
     operation: {
-      operationId: `getProductList`,
-      summary: `Api getProductList`,
+      operationId: `getBoilerPlateList`,
+      summary: `Api getBoilerPlateList`,
     },
   })
-  async getProductList(
-    @Query() query: GetProductListQueryDto,
-  ): Promise<PaginationResponseDto<GetProductListResponseDto>> {
-    return this.boilerPlateService.getProductList(query);
+  async getBoilerPlateList(
+    @Query() query: GetBoilerPlateListQueryDto,
+  ): Promise<PaginationResponseDto<GetBoilerPlateListResponseDto>> {
+    return this.boilerPlateService.getBoilerPlateList(query);
   }
 
   @Get(':id')
   @SwaggerApiDocument({
-    response: { type: GetProductDetailResponseDto },
+    response: { type: GetBoilerPlateDetailResponseDto },
     operation: {
-      operationId: `getProductDetail`,
-      summary: `Api getProductDetail`,
+      operationId: `getBoilerPlateDetail`,
+      summary: `Api getBoilerPlateDetail`,
     },
   })
-  async getProductDetail(@Param('id') id: string): Promise<GetProductDetailResponseDto> {
-    return this.boilerPlateService.getProductDetail(id);
+  async getBoilerPlateDetail(@Param('id') id: string): Promise<GetBoilerPlateDetailResponseDto> {
+    return this.boilerPlateService.getBoilerPlateDetail(id);
   }
 
   @Put(':id')
   @SwaggerApiDocument({
-    response: { type: UpdateProductResponseDto },
-    body: { type: UpdateProductBodyDto, required: true },
+    response: { type: UpdateBoilerPlateResponseDto },
+    body: { type: UpdateBoilerPlateBodyDto, required: true },
     operation: {
-      operationId: `updateProduct`,
-      summary: `Api updateProduct`,
+      operationId: `updateBoilerPlate`,
+      summary: `Api updateBoilerPlate`,
     },
   })
-  async updateProduct(
+  async updateBoilerPlate(
     @Param('id') id: string,
-    @Body() body: UpdateProductBodyDto,
-  ): Promise<UpdateProductResponseDto> {
-    return this.boilerPlateService.updateProduct(id, body);
+    @Body() body: UpdateBoilerPlateBodyDto,
+  ): Promise<UpdateBoilerPlateResponseDto> {
+    return this.boilerPlateService.updateBoilerPlate(id, body);
   }
 
   @Delete(':id')
   @SwaggerApiDocument({
     response: { status: HttpStatus.NO_CONTENT },
     operation: {
-      operationId: `deleteProduct`,
-      summary: `Api deleteProduct`,
+      operationId: `deleteBoilerPlate`,
+      summary: `Api deleteBoilerPlate`,
     },
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteProduct(@Param('id') id: string): Promise<void> {
-    await this.boilerPlateService.deleteProduct(id);
+  async deleteBoilerPlate(@Param('id') id: string): Promise<void> {
+    await this.boilerPlateService.deleteBoilerPlate(id);
   }
 }

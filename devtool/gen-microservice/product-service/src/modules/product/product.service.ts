@@ -2,51 +2,51 @@ import { PaginationResponseDto } from '@app/common';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Inject, Injectable } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { ProductRepository } from 'src/data-access/boiler-plate';
+import { BoilerPlateRepository } from 'src/data-access/boiler-plate';
 import { Logger } from 'winston';
-import { CreateProductBodyDto, CreateProductResponseDto } from './dto/create-boiler-plate.dto';
-import { GetProductDetailResponseDto } from './dto/get-boiler-plate-details.dto';
+import { CreateBoilerPlateBodyDto, CreateBoilerPlateResponseDto } from './dto/create-boiler-plate.dto';
+import { GetBoilerPlateDetailResponseDto } from './dto/get-boiler-plate-details.dto';
 import {
-  GetProductListQueryDto,
-  GetProductListResponseDto,
+  GetBoilerPlateListQueryDto,
+  GetBoilerPlateListResponseDto,
 } from './dto/get-boiler-plate-list.dto';
-import { UpdateProductBodyDto, UpdateProductResponseDto } from './dto/update-boiler-plate.dto';
-import { ProductHelperService } from './shared/boiler-plate-helper.service';
+import { UpdateBoilerPlateBodyDto, UpdateBoilerPlateResponseDto } from './dto/update-boiler-plate.dto';
+import { BoilerPlateHelperService } from './shared/boiler-plate-helper.service';
 
 @Injectable()
-export class ProductService {
+export class BoilerPlateService {
   constructor(
     @Inject(WINSTON_MODULE_PROVIDER)
     private readonly logger: Logger,
     private readonly em: EntityManager,
-    private readonly boilerPlateRepository: ProductRepository,
-    private readonly boilerPlateHelperService: ProductHelperService,
+    private readonly boilerPlateRepository: BoilerPlateRepository,
+    private readonly boilerPlateHelperService: BoilerPlateHelperService,
   ) {
-    this.logger = this.logger.child({ context: ProductService.name });
+    this.logger = this.logger.child({ context: BoilerPlateService.name });
   }
 
-  async createProduct(body: CreateProductBodyDto): Promise<CreateProductResponseDto> {
+  async createBoilerPlate(body: CreateBoilerPlateBodyDto): Promise<CreateBoilerPlateResponseDto> {
     return; // todo: implement here
   }
 
-  async getProductList(
-    query: GetProductListQueryDto,
-  ): Promise<PaginationResponseDto<GetProductListResponseDto>> {
+  async getBoilerPlateList(
+    query: GetBoilerPlateListQueryDto,
+  ): Promise<PaginationResponseDto<GetBoilerPlateListResponseDto>> {
     return; // todo: implement here
   }
 
-  async getProductDetail(id: string): Promise<GetProductDetailResponseDto> {
+  async getBoilerPlateDetail(id: string): Promise<GetBoilerPlateDetailResponseDto> {
     return; // todo: implement here
   }
 
-  async updateProduct(
+  async updateBoilerPlate(
     boilerPlateId: string,
-    body: UpdateProductBodyDto,
-  ): Promise<UpdateProductResponseDto> {
+    body: UpdateBoilerPlateBodyDto,
+  ): Promise<UpdateBoilerPlateResponseDto> {
     return; // todo: implement here
   }
 
-  async deleteProduct(id: string): Promise<any> {
+  async deleteBoilerPlate(id: string): Promise<any> {
     return; // todo: implement here
   }
 }

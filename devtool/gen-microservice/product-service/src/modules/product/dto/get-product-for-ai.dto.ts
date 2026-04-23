@@ -1,5 +1,5 @@
-import { BaseProductResponseDto } from './base.dto';
+import { BaseBoilerPlateResponseDto } from './base.dto';
 
-export class TcpGetProductForAiResponseDto extends BaseProductResponseDto {}
+export class TcpGetBoilerPlateForAiResponseDto extends BaseBoilerPlateResponseDto {}
 
-export class TcpGetProductForAiPayloadDto {}
+export class TcpGetBoilerPlateForAiPayloadDto {}
