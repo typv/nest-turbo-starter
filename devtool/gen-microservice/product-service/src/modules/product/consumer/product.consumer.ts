@@ -22,10 +22,10 @@ export class ProductConsumer {
     private readonly logger: Logger,
     // repositories
     private readonly em: EntityManager,
-    private readonly productRepository: ProductRepository,
+    private readonly boilerPlateRepository: ProductRepository,
     // services
-    private readonly productHelperService: ProductHelperService,
-    private readonly productService: ProductService,
+    private readonly boilerPlateHelperService: ProductHelperService,
+    private readonly boilerPlateService: ProductService,
   ) {}
 
   // just a sample, todo: delete if not needed

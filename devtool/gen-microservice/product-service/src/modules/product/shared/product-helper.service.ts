@@ -9,7 +9,7 @@ export class ProductHelperService {
   constructor(
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     private readonly em: EntityManager,
-    private readonly productRepository: ProductRepository,
+    private readonly boilerPlateRepository: ProductRepository,
   ) {
     this.logger = this.logger.child({ context: ProductHelperService.name });
   }

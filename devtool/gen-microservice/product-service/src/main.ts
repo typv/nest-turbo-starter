@@ -43,7 +43,7 @@ async function bootstrap() {
 
   // Start microservice
   const msFactory = new MicroserviceFactory(configService);
-  const tcpListener = configService.get('tcp.productService');
+  const tcpListener = configService.get('tcp.boilerPlateService');
   const tcpConfig = msFactory.createConfig({
     transport: Transport.TCP,
     options: {

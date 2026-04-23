@@ -21,18 +21,13 @@ export class GenerateMicroservice {
     const name = serviceName.trim();
 
     const names = {
-      camelCase: camelCase(name),                                  // e.g. myService
-      pascalCase: startCase(camelCase(name)).replace(/ /g, ''),    // e.g. MyService
-      upperCase: snakeCase(name).toUpperCase(),                    // e.g. MY_SERVICE
-      kebabCase: kebabCase(name),                                  // e.g. my-service
-      snakeCase: snakeCase(name),                                  // e.g. my_service
+      camelCase: camelCase(name), // e.g. myService
+      pascalCase: startCase(camelCase(name)).replace(/ /g, ''), // e.g. MyService
+      upperCase: snakeCase(name).toUpperCase(), // e.g. MY_SERVICE
+      kebabCase: kebabCase(name), // e.g. my-service
+      snakeCase: snakeCase(name), // e.g. my_service
+      titleCase: startCase(name), // e.g. My Service
     };
-
-    console.log('\n✅ Microservice name variants:');
-    console.log(`  camelCase  : ${names.camelCase}`);
-    console.log(`  PascalCase : ${names.pascalCase}`);
-    console.log(`  UPPER_CASE : ${names.upperCase}`);
-    console.log(`  kebab-case : ${names.kebabCase}`);
 
     // TODO: generate microservice files using `names`
   }

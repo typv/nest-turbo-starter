@@ -25,7 +25,7 @@ import { ProductService } from './boiler-plate.service';
 @ApiTags('Product')
 @ApiBearerAuth()
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(private readonly boilerPlateService: ProductService) {}
 
   @Post()
   @SwaggerApiDocument({
@@ -39,7 +39,7 @@ export class ProductController {
   async createProduct(
     @Body() body: CreateProductBodyDto,
   ): Promise<CreateProductResponseDto> {
-    return this.productService.createProduct(body);
+    return this.boilerPlateService.createProduct(body);
   }
 
   @Get()
@@ -56,7 +56,7 @@ export class ProductController {
   async getProductList(
     @Query() query: GetProductListQueryDto,
   ): Promise<PaginationResponseDto<GetProductListResponseDto>> {
-    return this.productService.getProductList(query);
+    return this.boilerPlateService.getProductList(query);
   }
 
   @Get(':id')
@@ -68,7 +68,7 @@ export class ProductController {
     },
   })
   async getProductDetail(@Param('id') id: string): Promise<GetProductDetailResponseDto> {
-    return this.productService.getProductDetail(id);
+    return this.boilerPlateService.getProductDetail(id);
   }
 
   @Put(':id')
@@ -84,7 +84,7 @@ export class ProductController {
     @Param('id') id: string,
     @Body() body: UpdateProductBodyDto,
   ): Promise<UpdateProductResponseDto> {
-    return this.productService.updateProduct(id, body);
+    return this.boilerPlateService.updateProduct(id, body);
   }
 
   @Delete(':id')
@@ -97,6 +97,6 @@ export class ProductController {
   })
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteProduct(@Param('id') id: string): Promise<void> {
-    await this.productService.deleteProduct(id);
+    await this.boilerPlateService.deleteProduct(id);
   }
 }

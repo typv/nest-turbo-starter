@@ -7,7 +7,7 @@ export class TcpGetProductPayloadDto {
     required: true,
     validated: true,
   })
-  productId: string;
+  boilerPlateId: string;
 }
 
 export class TcpGetProductResponseDto extends BaseProductResponseDto {}

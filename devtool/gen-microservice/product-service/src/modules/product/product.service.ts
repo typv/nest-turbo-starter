@@ -19,8 +19,8 @@ export class ProductService {
     @Inject(WINSTON_MODULE_PROVIDER)
     private readonly logger: Logger,
     private readonly em: EntityManager,
-    private readonly productRepository: ProductRepository,
-    private readonly productHelperService: ProductHelperService,
+    private readonly boilerPlateRepository: ProductRepository,
+    private readonly boilerPlateHelperService: ProductHelperService,
   ) {
     this.logger = this.logger.child({ context: ProductService.name });
   }
@@ -40,7 +40,7 @@ export class ProductService {
   }
 
   async updateProduct(
-    productId: string,
+    boilerPlateId: string,
     body: UpdateProductBodyDto,
   ): Promise<UpdateProductResponseDto> {
     return; // todo: implement here

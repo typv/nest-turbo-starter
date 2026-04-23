@@ -1,13 +1,13 @@
 export interface CheckDuplicateProductNameArgs {
   menuId: string;
-  productName: string;
+  boilerPlateName: string;
   excludeProductId?: string;
 }
 
 export interface HandleProductHideJobData {
-  productId: string;
+  boilerPlateId: string;
 }
 
 export interface HandleProductFeaturedExpiresJobData {
-  productId: string;
+  boilerPlateId: string;
 }
