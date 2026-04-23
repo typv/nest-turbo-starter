@@ -1,94 +1,6 @@
 version: '3'
 
 services:
-  node:
-    container_name: nest_turbo_node
-    extends:
-      file: .docker/compose/nodejs/node.yml
-      service: node
-    volumes:
-      - ${PWD}:/work
-    ports:
-      - '3300:3300'
-      - '3301:3301'
-    depends_on:
-      - db
-    networks:
-      - nest-turbo-network
-    env_file:
-      - .env
-
-  db:
-    container_name: nest_turbo_user_db
-    extends:
-      file: .docker/compose/postgresql/postgresql.yml
-      service: postgresql
-    ports:
-      - '5534:5432'
-    volumes:
-      - ${PWD}/.docker/volumes/user_pgdata:/var/lib/postgresql/data
-    networks:
-      - nest-turbo-network
-    environment:
-      POSTGRES_USER: ${DEFAULT_PG_USER}
-      POSTGRES_PASSWORD: ${DEFAULT_PG_PASSWORD}
-      POSTGRES_DB: ${DEFAULT_PG_DATABASE}
-    env_file:
-      - .env
-
-  redis:
-    container_name: nest_turbo_redis
-    extends:
-      file: .docker/compose/redis/redis.yml
-      service: redis
-    ports:
-      - '6374:6379'
-    networks:
-      - nest-turbo-network
-    volumes:
-      - ${PWD}/.docker/volumes/redis_data:/data
-    command: redis-server --appendonly yes --dir /data
-
-  redisinsight:
-    container_name: nest_turbo_redisinsight
-    extends:
-      file: .docker/compose/redis/redis.yml
-      service: redisinsight
-    depends_on:
-      - redis
-    volumes:
-      - ${PWD}/.docker/volumes/redisinsight_data:/db
-    ports:
-      - '5544:5540'
-    links:
-      - redis
-    networks:
-      - nest-turbo-network
-
-  kafka:
-    container_name: nest_turbo_kafka
-    extends:
-      file: .docker/compose/kafka/kafka.yml
-      service: kafka
-    networks:
-      - nest-turbo-network
-    volumes:
-      - ${PWD}/.docker/volumes/kafka_data:/var/lib/kafka/data
-    ports:
-      - '9082:9092'
-
-  kafkaui:
-    container_name: nest_turbo_kafka_ui
-    extends:
-      file: .docker/compose/kafka/kafka.yml
-      service: kafka_ui
-    networks:
-      - nest-turbo-network
-    depends_on:
-      - kafka
-    ports:
-      - '18082:8080'
-
   kong-ee-database:
     container_name: nest_turbo_kong_ee_database
     extends:
@@ -184,11 +96,7 @@ services:
       - ${PWD}/config/kong:/app
 
 volumes:
-  redisinsight_data:
-  kafka_data:
   kong_db_data:
-  user_pgdata:
-  redis_data:
 
 networks:
   nest-turbo-network:

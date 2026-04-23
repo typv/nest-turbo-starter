@@ -92,8 +92,10 @@ services:
 #      SPRING_SECURITY_USER_PASSWORD: secret
 #
 #  rabbitmq:
-#    container_name: ih_rabbitmq
-#    image: rabbitmq:3.12-management-alpine
+#    container_name: nest_turbo_rabbitmq
+#    extends:
+#          file: .docker/compose/rabbitmq/rabbitmq.yml
+#          service: rabbitmq
 #    environment:
 #      - RABBITMQ_DEFAULT_USER=root
 #      - RABBITMQ_DEFAULT_PASS=secret
