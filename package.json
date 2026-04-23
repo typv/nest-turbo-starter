@@ -26,6 +26,7 @@
   },
   "packageManager": "pnpm@10.17.0",
   "devDependencies": {
+    "@inquirer/prompts": "^8.4.2",
     "@mikro-orm/cli": "7.0.10",
     "@nestjs/cli": "^11.0.0",
     "@nestjs/testing": "^11.1.17",
@@ -57,9 +58,9 @@
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "4.21.0",
     "turbo": "latest",
-    "typescript": "^6.0.2",
-    "tsx": "4.21.0"
+    "typescript": "^6.0.2"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,jsx}": [

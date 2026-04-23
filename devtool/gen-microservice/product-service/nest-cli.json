@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "webpack": true,
+    "preserveSymlinks": true,
+    "deleteOutDir": true,
+    "assets": [
+      {
+        "include": "resources/lang/**/*",
+        "watchAssets": true,
+        "outDir": "dist/src"
+      }
+    ],
+    "plugins": [
+      {
+        "name": "@nestjs/swagger",
+        "options": {
+          "classValidatorShim": true,
+          "introspectComments": true,
+          "controllerFileNameSuffix": ".controller.ts",
+          "dtoFileNameSuffix": [".dto.ts", ".entity.ts"]
+        }
+      }
+    ]
+  }
+}
