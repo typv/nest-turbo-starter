@@ -7,7 +7,7 @@ import { ProductRepository } from './boiler-plate.repository';
   cond: () => ({ deletedAt: null }),
   default: true,
 })
-@Entity({ tableName: 'product', repository: () => ProductRepository })
+@Entity({ tableName: 'boiler_plate', repository: () => ProductRepository })
 export class Product extends BaseEntity<Product> {
   [EntityRepositoryType]?: ProductRepository;
 }
