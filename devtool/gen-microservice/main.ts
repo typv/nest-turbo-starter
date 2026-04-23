@@ -1,7 +1,7 @@
 import { input } from '@inquirer/prompts';
+import { cp, readdir, readFile, rename, writeFile } from 'fs/promises';
 import { camelCase, kebabCase, snakeCase, startCase } from 'lodash';
-import { readdir, rename } from 'fs/promises';
-import { join, dirname, basename } from 'path';
+import { basename, dirname, join } from 'path';
 
 export class GenerateMicroservice {
   constructor() {}
@@ -20,8 +20,19 @@ export class GenerateMicroservice {
       },
     });
 
-
     const name = serviceName.trim();
+
+    // Placeholder name used inside the boilerplate template
+    const PLACEHOLDER = 'boiler-plate';
+
+    const templateNames = {
+      camelCase: camelCase(PLACEHOLDER), // boilerPlate
+      pascalCase: startCase(camelCase(PLACEHOLDER)).replace(/ /g, ''), // BoilerPlate
+      upperCase: snakeCase(PLACEHOLDER).toUpperCase(), // BOILER_PLATE
+      kebabCase: kebabCase(PLACEHOLDER), // boiler-plate
+      snakeCase: snakeCase(PLACEHOLDER), // boiler_plate
+      titleCase: startCase(PLACEHOLDER), // Boiler Plate
+    };
 
     const names = {
       camelCase: camelCase(name), // e.g. myService
@@ -31,19 +42,23 @@ export class GenerateMicroservice {
       snakeCase: snakeCase(name), // e.g. my_service
       titleCase: startCase(name), // e.g. My Service
     };
-    console.log(names)
 
-    // TODO: generate microservice files using `names`
-    const templatePath = 'devtool/gen-microservice/product-service';
-    await this.renamePaths(templatePath, 'product', names.kebabCase);
+    const templateDir = 'devtool/gen-microservice/boiler-plateplate-service';
+    const destDir = join('apps', names.kebabCase);
 
-    // Rename the root input path itself — must be last
-    const rootName = basename(templatePath);
-    if (rootName.includes('product')) {
-      const newRoot = join(dirname(templatePath), rootName.replaceAll('product', names.kebabCase));
-      await rename(templatePath, newRoot);
-      console.log(`  ✏️  ${rootName}  →  ${basename(newRoot)}`);
-    }
+    // ── Step 1: Copy boilerplate template → apps/<name> ──────────────────
+    console.log(`\n📁  Copying template → ${destDir}`);
+    await cp(templateDir, destDir, { recursive: true });
+
+    // ── Step 2: Rename files and directories inside the destination ───────
+    console.log('\n🔁  Renaming paths...');
+    await this.renamePaths(destDir, templateNames.kebabCase, names.kebabCase);
+
+    // ── Step 3: Replace name patterns inside every file's content ─────────
+    console.log('\n📝  Replacing file contents...');
+    await this.replaceFileContents(destDir, templateNames, names);
+
+    console.log(`\n✅  Microservice "${names.kebabCase}" generated at ${destDir}`);
   }
 
   parseOptions(val: string): string {
@@ -53,42 +68,68 @@ export class GenerateMicroservice {
   /**
    * Recursively renames every file and directory under `basePath`
    * whose name contains `from`, replacing all occurrences of `from` with `to`.
-   *
-   * Traversal is **bottom-up** (deepest entries first) so that
-   * renaming a parent directory does not invalidate its children's paths.
-   *
-   * @param basePath - Root directory to start renaming from
-   * @param from     - Substring to search for in each entry name (e.g. "product")
-   * @param to       - Replacement substring (e.g. "boiler-plate")
-   *
-   * @example
-   * await renamePaths('devtool/gen-microservice/product-service', 'product', 'boiler-plate');
-   * // product.controller.ts   → boiler-plate.controller.ts
-   * // product-service/        → boiler-plate-service/
+   * Traversal is bottom-up so parent dirs are renamed after their children.
    */
-   private async renamePaths(
-    basePath: string,
-    from: string,
-    to: string,
-  ): Promise<void> {
+  private async renamePaths(basePath: string, from: string, to: string): Promise<void> {
     const entries = await readdir(basePath, { withFileTypes: true });
-  
-    // 1. Recurse into subdirectories first so children are renamed before parents
+
+    // Recurse into subdirectories first (bottom-up)
     for (const entry of entries) {
       if (entry.isDirectory()) {
         await this.renamePaths(join(basePath, entry.name), from, to);
       }
     }
-  
-    // 2. Rename files and directories at the current level
+
+    // Rename entries at the current level
     for (const entry of entries) {
       if (entry.name.includes(from)) {
         const oldPath = join(basePath, entry.name);
         const newName = entry.name.replaceAll(from, to);
         const newPath = join(basePath, newName);
-  
         await rename(oldPath, newPath);
         console.log(`  ✏️  ${entry.name}  →  ${newName}`);
+      }
+    }
+  }
+
+  /**
+   * Recursively walks all files under `dir` and replaces every occurrence
+   * of each template name variant with the corresponding new name variant.
+   *
+   * @param dir           - Directory to walk
+   * @param templateNames - Map of { camelCase, pascalCase, ... } for the placeholder
+   * @param names         - Map of { camelCase, pascalCase, ... } for the new service name
+   */
+  private async replaceFileContents(
+    dir: string,
+    templateNames: Record<string, string>,
+    names: Record<string, string>,
+  ): Promise<void> {
+    const entries = await readdir(dir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const fullPath = join(dir, entry.name);
+
+      if (entry.isDirectory()) {
+        await this.replaceFileContents(fullPath, templateNames, names);
+        continue;
+      }
+
+      let content = await readFile(fullPath, 'utf-8');
+      let modified = false;
+
+      for (const key of Object.keys(templateNames)) {
+        const oldToken = templateNames[key];
+        const newToken = names[key];
+        if (oldToken && newToken && content.includes(oldToken)) {
+          content = content.replaceAll(oldToken, newToken);
+          modified = true;
+        }
+      }
+
+      if (modified) {
+        await writeFile(fullPath, content, 'utf-8');
+        console.log(`  📝  ${entry.name}`);
       }
     }
   }
