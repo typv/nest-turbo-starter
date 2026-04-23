@@ -42,3 +42,7 @@ adcSync:
 	docker compose run --rm adc adc sync -f conf/apisix-$(environment).yaml
 adcDump:
 	docker compose run --rm adc adc dump -o adc/adc.yaml
+
+dir ?= apps
+clean:
+	./clean.sh $(dir)
