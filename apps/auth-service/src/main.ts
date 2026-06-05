@@ -1,4 +1,9 @@
-import { getAppCommonConfig, getWinstonConfig, logBootstrapInfo, setupSwagger } from '@app/common';
+import {
+  getAppCommonConfig,
+  getWinstonConfig,
+  logBootstrapInfo,
+  setupSwagger,
+} from '@app/common';
 import { PayloadValidationPipe } from '@app/common';
 import { ClassSerializerInterceptor } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
@@ -34,7 +39,7 @@ async function bootstrap() {
   app.useGlobalPipes(new PayloadValidationPipe());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
 
-  setupSwagger(app, appName, ['/auth-service']);
+  setupSwagger(app, appName, ['/auth']);
   await app.init();
 
   await app.listen(appPort);

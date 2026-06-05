@@ -71,7 +71,7 @@ services:
         plugins:
           proxy-rewrite:
             regex_uri:
-              - ^/auth-service/(.*)
+              - ^/auth/(.*)
               - /$1
           jwt-auth:
             _meta:
@@ -105,7 +105,7 @@ services:
             phase: access
         priority: 0
         uris:
-          - /auth-service/*
+          - /auth/*
       - methods:
           - GET
           - POST
@@ -127,18 +127,18 @@ services:
             query: jwt
           proxy-rewrite:
             regex_uri:
-              - ^/auth-service/(.*)
+              - ^/auth/(.*)
               - /$1
         priority: 1
         uris:
-          - /auth-service/api
-          - /auth-service/api/auth/login
-          - /auth-service/api/auth/sign-up
-          - /auth-service/api/auth/forgot-password
-          - /auth-service/api/auth/forgot-password/verify
-          - /auth-service/api/auth/reset-password
-          - /auth-service/swagger
-          - /auth-service/swagger/*
+          - /auth/api
+          - /auth/api/login
+          - /auth/api/sign-up
+          - /auth/api/forgot-password
+          - /auth/api/forgot-password/verify
+          - /auth/api/reset-password
+          - /auth/swagger
+          - /auth/swagger/*
     upstream:
       hash_on: vars
       keepalive_pool:
@@ -183,12 +183,13 @@ services:
               disable: true
           proxy-rewrite:
             regex_uri:
-              - ^/user-service/(.*)
+              - ^/user/(.*)
               - /$1
+        priority: 1
         uris:
-          - /user-service/api
-          - /user-service/swagger
-          - /user-service/swagger/*
+          - /user/api
+          - /user/swagger
+          - /user/swagger/*
       - methods:
           - GET
           - POST
@@ -204,7 +205,7 @@ services:
         plugins:
           proxy-rewrite:
             regex_uri:
-              - ^/user-service/(.*)
+              - ^/user/(.*)
               - /$1
           jwt-auth:
             _meta:
@@ -238,7 +239,7 @@ services:
             phase: access
         priority: 0
         uris:
-          - /user-service/*
+          - /user/*
     upstream:
       keepalive_pool:
         idle_timeout: 60
@@ -282,12 +283,13 @@ services:
               disable: true
           proxy-rewrite:
             regex_uri:
-              - ^/notification-service/(.*)
+              - ^/notification/(.*)
               - /$1
+        priority: 1
         uris:
-          - /notification-service/api
-          - /notification-service/swagger
-          - /notification-service/swagger/*
+          - /notification/api
+          - /notification/swagger
+          - /notification/swagger/*
       - methods:
           - GET
           - POST
@@ -299,11 +301,11 @@ services:
           - CONNECT
           - TRACE
           - PURGE
-        name: user-route
+        name: notification-route
         plugins:
           proxy-rewrite:
             regex_uri:
-              - ^/notification-service/(.*)
+              - ^/notification/(.*)
               - /$1
           jwt-auth:
             _meta:
@@ -337,7 +339,7 @@ services:
             phase: access
         priority: 0
         uris:
-          - /notification-service/*
+          - /notification/*
     upstream:
       keepalive_pool:
         idle_timeout: 60

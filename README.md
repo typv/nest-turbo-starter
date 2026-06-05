@@ -313,12 +313,12 @@ docker compose run --rm kong-deck gateway sync /app/kong-dev.yaml
 
 ## ⚙️ Microservices
 
-| Type             | Example                                                                                  |
-|------------------|------------------------------------------------------------------------------------------|
-| **Direct Access** | http://localhost:port/api                                                                |
-| **Via APISIX**   | http://localhost:`APISIX_NODE_LISTEN`/`service_name`/api                                 |
-| Example          | [http://localhost:9080/auth-service/api](http://localhost:9080/auth-service/api)         |
-| Swagger          | [http://localhost:9080/auth-service/swagger](http://localhost:9080/auth-service/swagger) |
+| Type             | Example                                                                                |
+|------------------|----------------------------------------------------------------------------------------|
+| **Direct Access** | http://localhost:port/api                                                              |
+| **Via APISIX**   | http://localhost:`APISIX_NODE_LISTEN`/`service_route`/api                              |
+| Example          | [http://localhost:9080/auth/api](http://localhost:9080/auth-service/api)         |
+| Swagger          | [http://localhost:9080/auth/swagger](http://localhost:9080/auth-service/swagger) |
 
 ---
 
@@ -337,7 +337,7 @@ docker compose run --rm kong-deck gateway sync /app/kong-dev.yaml
 
 ## Sign-Up
 ```bash
-    curl --location --request POST 'http://0.0.0.0:9080/auth-service/api/auth/sign-up' \
+    curl --location --request POST 'http://0.0.0.0:9080/auth/api/sign-up' \
     --header 'Content-Type: application/json' \
     --data-raw '{
         "email": "test@example.com",
@@ -346,7 +346,7 @@ docker compose run --rm kong-deck gateway sync /app/kong-dev.yaml
 ```
 ## Login
 ```bash
-    curl --location --request POST 'http://0.0.0.0:9080/auth-service/api/auth/login' \
+    curl --location --request POST 'http://0.0.0.0:9080/auth/api/login' \
     --header 'Content-Type: application/json' \
     --data-raw '{
         "email": "test@example.com",

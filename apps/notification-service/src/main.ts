@@ -43,7 +43,7 @@ async function bootstrap() {
   app.useGlobalPipes(new PayloadValidationPipe());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
 
-  setupSwagger(app, appName, ['/notification-service']);
+  setupSwagger(app, appName, ['/notification']);
   await app.init();
 
   // Start microservice
