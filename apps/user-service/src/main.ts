@@ -51,7 +51,7 @@ async function bootstrap() {
   app.useGlobalPipes(new PayloadValidationPipe());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
 
-  setupSwagger(app, appName, ['/user-service']);
+  setupSwagger(app, appName, ['/user']);
   await app.init();
 
   // Start microservice
