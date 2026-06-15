@@ -25,3 +25,8 @@ export enum TimeOfDay {
   Overnight = 'Overnight',
   AllDay = 'AllDay',
 }
+
+export enum StorageType {
+  S3 = 's3',
+  Minio = 'minio',
+}
