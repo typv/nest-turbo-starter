@@ -1,0 +1,32 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+    "composite": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "references": [{ "path": "../../libs/common" }, { "path": "../../libs/core" }],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
+  "include": ["./src"]
+}

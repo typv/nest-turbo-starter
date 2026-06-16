@@ -1,0 +1,100 @@
+{
+  "name": "boiler-plate-service",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Nest TypeScript starter repository",
+  "license": "MIT",
+  "engines": {
+    "npm": ">=10.0.0",
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "nest build",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "check-types": "tsc --noEmit -p tsconfig.build.json",
+    "lint": "oxlint .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/jest/bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "migration:create": "npx mikro-orm migration:create --config mikro-orm.config.ts",
+    "migration:createBlank": "npx mikro-orm migration:create --blank",
+    "migration:up": "npx mikro-orm migration:up",
+    "migration:down": "npx mikro-orm migration:down",
+    "migration:list": "npx mikro-orm migration:list",
+    "migration:check": "npx mikro-orm migration:check",
+    "migration:pending": "npx mikro-orm migration:pending",
+    "migration:fresh": "npx mikro-orm migration:fresh",
+    "gen:admin": "ts-node src/commands/create-admin.command.ts",
+    "command:run": "node dist/cli.js"
+  },
+  "devDependencies": {
+    "@mikro-orm/cli": "7.0.10",
+    "@swc/cli": "^0.6.0",
+    "@swc/core": "^1.10.8",
+    "supertest": "^7.0.0",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "dependencies": {
+    "@app/common": "workspace:*",
+    "@app/core": "workspace:*",
+    "@mikro-orm/core": "7.0.10",
+    "@mikro-orm/migrations": "7.0.10",
+    "@mikro-orm/nestjs": "7.0.1",
+    "@mikro-orm/postgresql": "7.0.10",
+    "@mikro-orm/decorators": "7.0.10",
+    "@mikro-orm/reflection": "7.0.10",
+    "@nestjs/common": "11.1.19",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/core": "11.1.19",
+    "@nestjs/jwt": "^11.0.0",
+    "@nestjs/microservices": "11.1.19",
+    "@nestjs/passport": "^11.0.5",
+    "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/swagger": "^11.1.6",
+    "chalk": "^5.4.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+    "express-request-id": "^3.0.0",
+    "helmet": "^8.1.0",
+    "kafkajs": "^2.2.4",
+    "nest-commander": "^3.17.0",
+    "nest-winston": "^1.10.2",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "reflect-metadata": "^0.2.2",
+    "rimraf": "^6.0.1",
+    "rxjs": "^7.8.1",
+    "validatorjs": "^3.22.1",
+    "winston": "^3.17.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  },
+  "mikro-orm": {
+    "useTsNode": false,
+    "configPaths": [
+      "./mikro-orm.config.ts",
+      "./dist/mikro-orm.config.js"
+    ]
+  }
+}
