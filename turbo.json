@@ -16,13 +16,15 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "build:clean": {
-      "cache": false
+      "cache": false,
+      "dependsOn": ["^build:clean"]
     },
     "check-types": {
       "cache": true,
       "dependsOn": ["^build"],
+      "outputs": ["*.tsbuildinfo"],
       "inputs": [
-        "apps/**/*.ts",
+        "src/**/*.ts",
         "!**/node_modules/**",
         "!**/dist/**",
         "!**/coverage/**",
@@ -50,8 +52,6 @@
     "TZ",
     "NODE_ENV",
     "FRONTEND_URL",
-    "NODE_ENV",
-    "JWT_SECRET",
     "REDIS_URL",
     "KAFKA_BROKERS",
     "KAFKA_HEARTBEAT_INTERVAL",
@@ -65,8 +65,10 @@
     "JWT_ACCESS_TOKEN_EXPIRES_IN",
     "JWT_REFRESH_TOKEN_EXPIRES_IN",
     "JWT_ISSUER",
-    "TCP_AUTH_SERVICE_HOST",
-    "TCP_AUTH_SERVICE_PORT",
+    "GRPC_USER_SERVICE_HOST",
+    "GRPC_USER_SERVICE_PORT",
+    "GRPC_NOTIFICATION_SERVICE_HOST",
+    "GRPC_NOTIFICATION_SERVICE_PORT",
     "TCP_USER_SERVICE_HOST",
     "TCP_USER_SERVICE_PORT",
     "TCP_NOTIFICATION_SERVICE_HOST",

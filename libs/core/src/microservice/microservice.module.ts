@@ -1,12 +1,13 @@
 import { kafkaConfiguration, rabbitmqConfiguration } from '@app/common';
 import { DynamicModule, FactoryProvider, Module, Provider } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ClientOptions, ClientProxyFactory } from '@nestjs/microservices';
+import { ClientOptions } from '@nestjs/microservices';
 import { MS_INJECTION_TOKEN } from './microservice.constant';
 import { MicroserviceFactory } from './microservice.factory';
 import {
   MicroserviceClientAsyncDefinition,
   MicroserviceClientDefinition,
+  MicroserviceConfigOptions,
 } from './microservice.interface';
 
 @Module({})
@@ -23,8 +24,8 @@ export class MicroserviceModule {
           serviceName: client.name,
           transport: client.transport,
           options: client?.options,
-        });
-        return ClientProxyFactory.create(clientOptions as ClientOptions);
+        } as MicroserviceConfigOptions);
+        return msFactory.createClient(clientOptions);
       },
       inject: [MicroserviceFactory],
     };
@@ -70,12 +71,15 @@ export class MicroserviceModule {
           msFactory: MicroserviceFactory,
           resolvedOptions: ClientOptions['options'],
         ) => {
-          const clientOptions: ClientOptions = {
+          // Route through the factory so every transport is normalised the same
+          // way as the synchronous `register()` path.
+          const clientOptions = msFactory.createConfig({
+            serviceName: client.name,
             transport: client.transport,
             options: resolvedOptions,
-          } as ClientOptions;
+          } as MicroserviceConfigOptions);
 
-          return ClientProxyFactory.create(clientOptions);
+          return msFactory.createClient(clientOptions);
         },
         inject: [MicroserviceFactory, asyncConfigToken],
       };

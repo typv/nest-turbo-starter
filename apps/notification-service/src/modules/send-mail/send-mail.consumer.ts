@@ -1,7 +1,11 @@
-import { AllExceptionFilter, NotificationMessagePattern } from '@app/common';
+import {
+  AllExceptionFilter,
+  ForgotPasswordRequest,
+  NOTIFICATION_GRPC_SERVICE,
+  SendMailResponse,
+} from '@app/common';
 import { Controller, UseFilters } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
-import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { GrpcMethod } from '@nestjs/microservices';
 import { EmailService } from '../email';
 
 @UseFilters(AllExceptionFilter)
@@ -9,8 +13,8 @@ import { EmailService } from '../email';
 export class SendMailConsumer {
   constructor(private readonly emailService: EmailService) {}
 
-  @EventPattern(NotificationMessagePattern.FORGOT_PASSWORD)
-  async sendMail(data: ForgotPasswordDto): Promise<{ success: boolean }> {
+  @GrpcMethod(NOTIFICATION_GRPC_SERVICE, 'SendForgotPasswordMail')
+  async sendMail(data: ForgotPasswordRequest): Promise<SendMailResponse> {
     await this.emailService.forgotPasswordMailer(data);
     return { success: true };
   }

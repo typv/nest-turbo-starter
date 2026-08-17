@@ -2,6 +2,7 @@ import {
   AllExceptionFilter,
   appCommonConfiguration,
   getWinstonConfig,
+  grpcConfiguration,
   HttpLoggerMiddleware,
   kafkaConfiguration,
   rabbitmqConfiguration,
@@ -38,6 +39,7 @@ import { AuthModule } from './auth';
         appConfiguration,
         rabbitmqConfiguration,
         kafkaConfiguration,
+        grpcConfiguration,
         tcpConfiguration,
       ],
     }),
@@ -65,23 +67,21 @@ import { AuthModule } from './auth';
       // },
       {
         name: MicroserviceName.UserService,
-        transport: Transport.TCP,
+        transport: Transport.GRPC,
         inject: [ConfigService],
         useFactory: (configService: ConfigService) => {
-          const userTcpURLConfig = configService.get('tcp.userService');
           return {
-            ...userTcpURLConfig,
+            ...configService.get('grpc.userService'),
           };
         },
       },
       {
         name: MicroserviceName.NotificationService,
-        transport: Transport.TCP,
+        transport: Transport.GRPC,
         inject: [ConfigService],
         useFactory: (configService: ConfigService) => {
-          const notificationTcpURLConfig = configService.get('tcp.notificationService');
           return {
-            ...notificationTcpURLConfig,
+            ...configService.get('grpc.notificationService'),
           };
         },
       },

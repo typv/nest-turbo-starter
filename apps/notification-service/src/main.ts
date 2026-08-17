@@ -5,7 +5,11 @@ import {
   setupSwagger,
 } from '@app/common';
 import { PayloadValidationPipe } from '@app/common';
-import { MicroserviceConfigOptions, MicroserviceFactory } from '@app/core';
+import {
+  MicroserviceConfigOptions,
+  MicroserviceFactory,
+  MicroserviceName,
+} from '@app/core';
 import { ClassSerializerInterceptor } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
@@ -65,14 +69,15 @@ async function bootstrap() {
   // } as MicroserviceConfigOptions);
   // await app.connectMicroservice<MicroserviceOptions>(rabbitMQConsumerConfig);
 
-  const tcpListener = configService.get('tcp.notificationService');
-  const tcpConfig = msFactory.createConfig({
-    transport: Transport.TCP,
+  const grpcListener = configService.get('grpc.notificationService');
+  const grpcConfig = msFactory.createConfig({
+    serviceName: MicroserviceName.NotificationService,
+    transport: Transport.GRPC,
     options: {
-      ...tcpListener,
+      ...grpcListener,
     },
   } as unknown as MicroserviceConfigOptions);
-  await app.connectMicroservice<MicroserviceOptions>(tcpConfig);
+  await app.connectMicroservice<MicroserviceOptions>(grpcConfig);
 
   await app.startAllMicroservices();
   await app.listen(appPort);
@@ -81,7 +86,7 @@ async function bootstrap() {
     nodeEnv,
     logger,
     appPort,
-    tcpListener,
+    msListener: { transport: 'gRPC', address: grpcListener?.url },
   });
 }
 

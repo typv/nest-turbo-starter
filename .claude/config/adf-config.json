@@ -1,0 +1,59 @@
+{
+  "$schema": "./adf-config.schema.json",
+  "statusline": "minimal",
+  "privacyBlock": true,
+  "docs": {
+    "maxLoc": 800
+  },
+  "plan": {
+    "namingFormat": "{date}-{issue}-{slug}",
+    "dateFormat": "YYMMDD-HHmm",
+    "issuePrefix": "GH-",
+    "reportsDir": "reports",
+    "resolution": {
+      "order": [
+        "session",
+        "branch"
+      ],
+      "branchPattern": "(?:feat|fix|chore|refactor|docs)/(?:[^/]+/)?(.+)"
+    },
+    "validation": {
+      "mode": "prompt",
+      "minQuestions": 3,
+      "maxQuestions": 8,
+      "focusAreas": [
+        "assumptions",
+        "risks",
+        "tradeoffs",
+        "architecture"
+      ]
+    }
+  },
+  "paths": {
+    "docs": "docs",
+    "plans": "plans"
+  },
+  "locale": {
+    "thinkingLanguage": null,
+    "responseLanguage": null
+  },
+  "trust": {
+    "passphrase": null,
+    "enabled": false
+  },
+  "project": {
+    "type": "auto",
+    "packageManager": "auto",
+    "framework": "auto"
+  },
+  "gemini": {
+    "model": "gemini-3-flash-preview"
+  },
+  "skills": {
+    "research": {
+      "useGemini": true
+    }
+  },
+  "hooks": {},
+  "assertions": []
+}

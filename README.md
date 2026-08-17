@@ -41,7 +41,7 @@ This starter uses a Monorepo structure managed by **Turborepo** and **pnpm** to 
   <img src="docs/images/architecture.png" alt="Nest Turbo Starter Microservices Architecture" width="342"/>
 </p>
 
-This project implements a robust, containerized microservices architecture designed for high availability and scalability. All core services-built on NestJS and Node.js-reside within a secure Private Subnet, adhering to the principle of service autonomy where each microservice owns its PostgreSQL database. External client requests are strictly managed by Apache APISIX, which serves as the central API Gateway for routing, security, and policy enforcement via HTTP. Internal service-to-service communication is handled via efficient TCP connections, while Kafka is optionally integrated to enable scalable, asynchronous communication and event-driven processing, minimizing service coupling.
+This project implements a robust, containerized microservices architecture designed for high availability and scalability. All core services-built on NestJS and Node.js-reside within a secure Private Subnet, adhering to the principle of service autonomy where each microservice owns its PostgreSQL database. External client requests are strictly managed by Apache APISIX, which serves as the central API Gateway for routing, security, and policy enforcement via HTTP. Internal service-to-service communication is handled via gRPC over a shared `.proto` contract, while Kafka is optionally integrated to enable scalable, asynchronous communication and event-driven processing, minimizing service coupling. See [docs/service-communication.md](./docs/service-communication.md) for ports, the contract layout, and how to switch transports.
 
 ---
 

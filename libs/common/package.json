@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build:clean": "rimraf dist && pnpm build",
-    "build": "npx tsc -p tsconfig.json",
-    "start:dev": "npx tsc -p tsconfig.json --watch --preserveWatchOutput"
+    "build:clean": "rimraf dist tsconfig.tsbuildinfo && pnpm build",
+    "build": "npx tsc -p tsconfig.json && pnpm copy:proto",
+    "copy:proto": "node -e \"require('fs').cpSync('src/grpc/proto','dist/grpc/proto',{recursive:true})\"",
+    "start:dev": "pnpm copy:proto && npx tsc -p tsconfig.json --watch --preserveWatchOutput"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,6 +46,6 @@
   },
   "devDependencies": {
     "google-libphonenumber": "^3.2.42",
-    "typescript": "latest"
+    "typescript": "^6.0.3"
   }
 }

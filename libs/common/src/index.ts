@@ -7,6 +7,7 @@ export * from './enums';
 export * from './errors';
 export * from './events';
 export * from './exceptions';
+export * from './grpc';
 export * from './utilities';
 export * from './interceptors';
 export * from './middlewares';

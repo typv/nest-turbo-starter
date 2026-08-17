@@ -1,59 +1,65 @@
-import { ERROR_RESPONSE, ServerException, UserMessagePattern } from '@app/common';
-import { MikroOrmMicroserviceInterceptor } from '@app/common';
-import { AllExceptionFilter } from '@app/common';
-import { Controller, UseFilters, UseInterceptors } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
 import {
-  CreateUserDataDto,
-  CreateUserResponseDto,
+  AllExceptionFilter,
+  CreateUserRequest,
+  DeleteUserResponse,
+  GetUserRequest,
+  GetUsersResponse,
+  MikroOrmMicroserviceInterceptor,
+  PayloadValidationPipe,
+  USER_GRPC_SERVICE,
+  UserResponse,
+} from '@app/common';
+import { Controller, UseFilters, UseInterceptors, UsePipes } from '@nestjs/common';
+import { GrpcMethod } from '@nestjs/microservices';
+import {
   DeleteUserDataDto,
-  DeleteUserResponseDto,
   FindUserByEmailDataDto,
-  FindUserByEmailResponseDto,
-  GetUserDataDto,
-  GetUserResponseDto,
   GetUsersDataDto,
-  GetUsersResponseDto,
   UpdateUserDataDto,
-  UpdateUserResponseDto,
 } from './dto';
 import { UserService } from './user.service';
 
+/**
+ * gRPC surface of user-service.
+ *
+ * The pipe is declared here because `app.useGlobalPipes()` only covers the HTTP
+ * server of a hybrid app. Handlers needing validation also take a class DTO:
+ * interfaces are erased at runtime, leaving the pipe no metatype to work with.
+ */
+@UsePipes(new PayloadValidationPipe())
 @UseInterceptors(MikroOrmMicroserviceInterceptor)
 @UseFilters(AllExceptionFilter)
 @Controller()
 export class UserConsumer {
   constructor(private readonly userService: UserService) {}
 
-  @MessagePattern(UserMessagePattern.CREATE_USER)
-  async createUser(data: CreateUserDataDto): Promise<CreateUserResponseDto> {
+  @GrpcMethod(USER_GRPC_SERVICE, 'CreateUser')
+  async createUser(data: CreateUserRequest): Promise<UserResponse> {
     return this.userService.createUser(data);
   }
 
-  @MessagePattern(UserMessagePattern.GET_USER)
-  async getUser(data: GetUserDataDto): Promise<GetUserResponseDto> {
+  @GrpcMethod(USER_GRPC_SERVICE, 'GetUser')
+  async getUser(data: GetUserRequest): Promise<UserResponse> {
     return this.userService.getUser(data);
   }
 
-  @MessagePattern(UserMessagePattern.GET_USERS)
-  async getUsers(data: GetUsersDataDto): Promise<GetUsersResponseDto> {
+  @GrpcMethod(USER_GRPC_SERVICE, 'GetUsers')
+  async getUsers(data: GetUsersDataDto): Promise<GetUsersResponse> {
     return this.userService.getUsers(data);
   }
 
-  @MessagePattern(UserMessagePattern.UPDATE_USER)
-  async updateUser(data: UpdateUserDataDto): Promise<UpdateUserResponseDto> {
+  @GrpcMethod(USER_GRPC_SERVICE, 'UpdateUser')
+  async updateUser(data: UpdateUserDataDto): Promise<UserResponse> {
     return this.userService.updateUser(data);
   }
 
-  @MessagePattern(UserMessagePattern.DELETE_USER)
-  async deleteUser(data: DeleteUserDataDto): Promise<DeleteUserResponseDto> {
+  @GrpcMethod(USER_GRPC_SERVICE, 'DeleteUser')
+  async deleteUser(data: DeleteUserDataDto): Promise<DeleteUserResponse> {
     return this.userService.deleteUser(data);
   }
 
-  @MessagePattern(UserMessagePattern.FIND_USER_BY_EMAIL)
-  async findUserByEmail(
-    data: FindUserByEmailDataDto,
-  ): Promise<FindUserByEmailResponseDto> {
+  @GrpcMethod(USER_GRPC_SERVICE, 'FindUserByEmail')
+  async findUserByEmail(data: FindUserByEmailDataDto): Promise<UserResponse> {
     return this.userService.findUserByEmail(data);
   }
 }

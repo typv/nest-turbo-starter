@@ -15,11 +15,17 @@ export function getWinstonConfig(
     winston.format.colorize({ level: true, message: true }),
     winston.format.json(),
     winston.format.printf((info) => {
-      const { level, message, timestamp, context: ctx, error: err, ...metadata } = info;
+      const {
+        level: _level,
+        message: _message,
+        timestamp: _timestamp,
+        context: ctx,
+        error: err,
+        ...metadata
+      } = info;
       const appPrefix = chalk.blue(`[${appName}]`);
       const context = chalk.cyan(`[${ctx || 'Application'}]`);
 
-      const error = info.error;
       let errorOutput = '';
       if (err instanceof Error) {
         errorOutput = `\n\t${chalk.red(err)}`;
@@ -56,20 +62,21 @@ export function getWinstonConfig(
       }),
     ],
   };
-};
+}
 
 interface LogBootstrapOptions {
   nodeEnv: NodeEnv;
   logger: LoggerService;
   appPort: number;
-  tcpListener?: Record<string, any>;
+  /** Transport-agnostic listener info, e.g. `{ transport: 'gRPC', address: '0.0.0.0:3311' }`. */
+  msListener?: { transport: string; address?: string };
 }
 
 export function logBootstrapInfo(
   app: INestApplication,
   logOptions: LogBootstrapOptions,
 ): void {
-  const { tcpListener, nodeEnv, logger, appPort } = logOptions;
+  const { msListener, nodeEnv, logger, appPort } = logOptions;
 
   if (nodeEnv === NodeEnv.Production) {
     logger.log({
@@ -86,10 +93,10 @@ export function logBootstrapInfo(
     host = appAddressInfo.address === '::' ? 'localhost' : appAddressInfo.address;
   }
 
-  if (tcpListener) {
+  if (msListener) {
     logger.log({
-      message: `TCP Microservice Listener is ready on ${chalk.blue(
-        `${tcpListener?.host || 'Unknown'}:${tcpListener?.port || 'Unknown'}`,
+      message: `${msListener.transport} Microservice Listener is ready on ${chalk.blue(
+        msListener.address || 'Unknown',
       )}`,
       context: 'NestMicroservice',
     });
@@ -99,4 +106,4 @@ export function logBootstrapInfo(
     message: `Application is ready. View Swagger at http://${host}:${appPort}/swagger`,
     context: 'Application',
   });
-};
+}

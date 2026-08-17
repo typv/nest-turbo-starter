@@ -1,12 +1,15 @@
 import { codeExpiresConfiguration, jwtConfiguration } from '@app/common';
-import { GoogleAuthModule } from '@app/core';
+import {
+  GoogleAuthModule,
+  GrpcGatewayAuthStrategy,
+  GrpcJwtAuthStrategy,
+} from '@app/core';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtAuthStrategy, RefreshTokenStrategy } from 'src/modules/auth/strategies';
+import { RefreshTokenStrategy } from 'src/modules/auth/strategies';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { GatewayAuthStrategy } from './strategies/gateway-auth.strategy';
 
 @Module({
   imports: [
@@ -27,6 +30,11 @@ import { GatewayAuthStrategy } from './strategies/gateway-auth.strategy';
     GoogleAuthModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtAuthStrategy, RefreshTokenStrategy, GatewayAuthStrategy],
+  providers: [
+    AuthService,
+    GrpcJwtAuthStrategy,
+    RefreshTokenStrategy,
+    GrpcGatewayAuthStrategy,
+  ],
 })
 export class AuthModule {}

@@ -2,6 +2,7 @@ import {
   AllExceptionFilter,
   appCommonConfiguration,
   getWinstonConfig,
+  grpcConfiguration,
   kafkaConfiguration,
   rabbitmqConfiguration,
   tcpConfiguration,
@@ -40,6 +41,7 @@ import { SendMailModule } from './send-mail';
         appConfiguration,
         rabbitmqConfiguration,
         kafkaConfiguration,
+        grpcConfiguration,
         tcpConfiguration,
       ],
     }),
@@ -73,12 +75,11 @@ import { SendMailModule } from './send-mail';
     MicroserviceModule.registerAsync([
       {
         name: MicroserviceName.UserService,
-        transport: Transport.TCP,
+        transport: Transport.GRPC,
         inject: [ConfigService],
         useFactory: (configService: ConfigService) => {
-          const userTcpURLConfig = configService.get('tcp.userService');
           return {
-            ...userTcpURLConfig,
+            ...configService.get('grpc.userService'),
           };
         },
       },

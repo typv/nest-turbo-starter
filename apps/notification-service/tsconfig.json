@@ -20,9 +20,11 @@
     "noFallthroughCasesInSwitch": false,
     "composite": true,
     "jsx": "react-jsx",
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    // Deliberately empty: `paths` replaces rather than merges with the parent's,
+    // shadowing the root `@app/*` -> source mappings. Apps must resolve the libs
+    // through the pnpm symlink to their built output, which is what the SWC
+    // builder emits requires for at runtime.
+    "paths": {}
   },
   "references": [{ "path": "../../libs/common" }, { "path": "../../libs/core" }],
   "ts-node": {

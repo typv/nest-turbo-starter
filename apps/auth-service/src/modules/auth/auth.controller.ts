@@ -7,8 +7,8 @@ import {
 } from '@app/common';
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { RefreshToken } from 'src/decorators';
 import { AuthService } from './auth.service';
+import { RefreshToken } from './decorators';
 import {
   ChangePasswordDto,
   ForgotPasswordDto,

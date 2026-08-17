@@ -1,6 +1,5 @@
 import {
   AccountAction,
-  APP_DEFAULTS,
   appCommonConfiguration,
   codeExpiresConfiguration,
   ERROR_RESPONSE,
@@ -8,12 +7,12 @@ import {
   hashData,
   jwtConfiguration,
   JwtTokenType,
-  NotificationMessagePattern,
+  NotificationGrpcService,
   Role,
   ServerException,
   SuccessResponseDto,
   TokenPayload,
-  UserMessagePattern,
+  UserGrpcService,
   UserRequestPayload,
   verifyHashed,
 } from '@app/common';
@@ -27,9 +26,11 @@ import {
 import { Inject, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
-import { ClientProxy, Transport } from '@nestjs/microservices';
+import { Transport } from '@nestjs/microservices';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { appConfiguration } from 'src/config';
 import { v4 as uuidv4 } from 'uuid';
+import { Logger } from 'winston';
 import {
   ChangePasswordDto,
   ForgotPasswordDto,
@@ -58,12 +59,14 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
     private readonly codeExpiresConfig: ConfigType<typeof codeExpiresConfiguration>,
     // @Inject(MS_INJECTION_TOKEN(MicroserviceName.UserService, Transport.KAFKA))
     // private readonly userClientKafka: ClientKafka,
-    @Inject(MS_INJECTION_TOKEN(MicroserviceName.UserService, Transport.TCP))
-    private readonly userClientTCP: ClientProxy,
-    @Inject(MS_INJECTION_TOKEN(MicroserviceName.NotificationService, Transport.TCP))
-    private readonly notificationClientTCP: ClientProxy,
+    @Inject(MS_INJECTION_TOKEN(MicroserviceName.UserService, Transport.GRPC))
+    private readonly userService: UserGrpcService,
+    @Inject(MS_INJECTION_TOKEN(MicroserviceName.NotificationService, Transport.GRPC))
+    private readonly notificationService: NotificationGrpcService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {
     super();
+    this.logger = this.logger.child({ context: AuthService.name });
   }
 
   async onModuleInit() {
@@ -80,9 +83,7 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
 
   async login(body: LoginDto): Promise<LoginResponseDto> {
     const { email, password } = body;
-    const user = await this.msResponse(
-      this.userClientTCP.send(UserMessagePattern.GET_USER, { email }),
-    );
+    const user = await this.msResponse(this.userService.getUser({ email }));
     if (!user?.password) throw new ServerException(ERROR_RESPONSE.INVALID_CREDENTIALS);
     if (!user.isActive) throw new ServerException(ERROR_RESPONSE.USER_DEACTIVATED);
 
@@ -101,9 +102,7 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
       emailVerified: false,
       role: Role.User,
     };
-    const newUser = await this.msResponse(
-      this.userClientTCP.send(UserMessagePattern.CREATE_USER, userData),
-    );
+    const newUser = await this.msResponse(this.userService.createUser(userData));
 
     return this.manageUserToken(newUser);
   }
@@ -129,9 +128,7 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
 
   async sendResetPasswordLink(body: ForgotPasswordDto): Promise<SuccessResponseDto> {
     const { email } = body;
-    const user = await this.msResponse(
-      this.userClientTCP.send(UserMessagePattern.GET_USER, { email }),
-    );
+    const user = await this.msResponse(this.userService.getUser({ email }));
     if (!user) throw new ServerException(ERROR_RESPONSE.USER_NOT_FOUND);
 
     const token = uuidv4();
@@ -145,11 +142,22 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
       '&action=' +
       AccountAction.ResetPassword;
 
-    await this.notificationClientTCP.emit(NotificationMessagePattern.FORGOT_PASSWORD, {
-      email,
-      name: user.fullName,
-      resetPasswordUrl,
-    });
+    // Deliberately not awaited so the response never waits on SMTP/SES.
+    // A delivery failure is logged, not surfaced to the client.
+    this.notificationService
+      .sendForgotPasswordMail({
+        email,
+        name: user.fullName,
+        resetPasswordUrl,
+      })
+      .subscribe({
+        error: (error) =>
+          this.logger.error({
+            context: `${AuthService.name}.sendResetPasswordLink`,
+            message: 'Failed to dispatch forgot-password mail',
+            error,
+          }),
+      });
 
     // Save token to redis
     await this.redisService.setValue<string>(
@@ -164,9 +172,7 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
     body: VerifyResetPasswordDto,
   ): Promise<VerifyResetPasswordResponseDto> {
     const { email, token } = body;
-    const user = await this.msResponse(
-      this.userClientTCP.send(UserMessagePattern.GET_USER, { email }),
-    );
+    const user = await this.msResponse(this.userService.getUser({ email }));
     if (!user) {
       throw new ServerException(ERROR_RESPONSE.USER_NOT_FOUND);
     }
@@ -178,9 +184,7 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
   async resetPassword(body: ResetPasswordDto): Promise<SuccessResponseDto> {
     const { newPassword, email, token } = body;
 
-    const user = await this.msResponse(
-      this.userClientTCP.send(UserMessagePattern.GET_USER, { email }),
-    );
+    const user = await this.msResponse(this.userService.getUser({ email }));
     if (!user) {
       throw new ServerException(ERROR_RESPONSE.USER_NOT_FOUND);
     }
@@ -200,11 +204,9 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
     const userData = {
       id: user.id,
       password: hashedPassword,
-      passwordChangedAt: new Date(),
+      passwordChangedAt: new Date().toISOString(),
     };
-    await this.msResponse(
-      this.userClientTCP.send(UserMessagePattern.UPDATE_USER, userData),
-    );
+    await this.msResponse(this.userService.updateUser(userData));
 
     // Update redis
     await this.redisService.deleteKey(this.redisService.getResetPasswordKey(user.id));
@@ -282,9 +284,7 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
   ): Promise<SuccessResponseDto> {
     const { password: currentPassword, newPassword } = body;
     const user = await this.msResponse(
-      this.userClientTCP.send(UserMessagePattern.GET_USER, {
-        email: userPayload.email,
-      }),
+      this.userService.getUser({ email: userPayload.email }),
     );
     if (!user) {
       throw new ServerException(ERROR_RESPONSE.INVALID_EMAIL);
@@ -307,11 +307,9 @@ export class AuthService extends BaseService implements OnModuleInit, OnModuleDe
     const userData = {
       id: user.id,
       password: hashedPassword,
-      passwordChangedAt: new Date(),
+      passwordChangedAt: new Date().toISOString(),
     };
-    await this.msResponse(
-      this.userClientTCP.send(UserMessagePattern.UPDATE_USER, userData),
-    );
+    await this.msResponse(this.userService.updateUser(userData));
 
     // Update redis
     await this.redisService.deleteKey(this.redisService.getResetPasswordKey(user.id));

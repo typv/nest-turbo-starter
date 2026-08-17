@@ -6,6 +6,18 @@ export const ERROR_RESPONSE = {
     errorCode: 'internal_server_error',
     message: `Internal Server Error`,
   },
+  // Transport-level failures reaching a caller through BaseService.msResponse:
+  // the downstream service is unreachable, or it did not answer in time.
+  SERVICE_UNAVAILABLE: {
+    statusCode: HttpStatus.SERVICE_UNAVAILABLE,
+    errorCode: 'service_unavailable',
+    message: 'Service temporarily unavailable. Please try again later',
+  },
+  GATEWAY_TIMEOUT: {
+    statusCode: HttpStatus.GATEWAY_TIMEOUT,
+    errorCode: 'gateway_timeout',
+    message: 'The request took too long to complete. Please try again',
+  },
   UNAUTHORIZED: {
     statusCode: HttpStatus.UNAUTHORIZED,
     errorCode: 'unauthorized',

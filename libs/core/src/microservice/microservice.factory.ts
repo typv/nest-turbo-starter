@@ -1,7 +1,19 @@
-import { kafkaConfiguration, rabbitmqConfiguration } from '@app/common';
-import { ConfigService, ConfigType } from '@nestjs/config';
-import { CustomClientOptions, Transport } from '@nestjs/microservices';
 import {
+  GRPC_LOADER_OPTIONS,
+  kafkaConfiguration,
+  rabbitmqConfiguration,
+} from '@app/common';
+import { ConfigService, ConfigType } from '@nestjs/config';
+import {
+  ClientGrpc,
+  ClientOptions,
+  ClientProxy,
+  ClientProxyFactory,
+  CustomClientOptions,
+  Transport,
+} from '@nestjs/microservices';
+import {
+  GrpcMicroserviceOptions,
   KafkaMicroserviceOptions,
   MicroserviceConfigOptions,
   RmqMicroserviceOptions,
@@ -73,6 +85,18 @@ export class MicroserviceFactory {
     } as unknown as CustomClientOptions;
   }
 
+  private createGrpcConfig(grpcOptions: GrpcMicroserviceOptions): CustomClientOptions {
+    return {
+      name: grpcOptions.serviceName,
+      transport: grpcOptions.transport,
+      options: {
+        // Applied first so callers can override individual loader options.
+        loader: GRPC_LOADER_OPTIONS,
+        ...grpcOptions.options,
+      },
+    } as unknown as CustomClientOptions;
+  }
+
   public createConfig(options: MicroserviceConfigOptions): CustomClientOptions {
     switch (options.transport) {
       case Transport.RMQ:
@@ -84,8 +108,51 @@ export class MicroserviceFactory {
       case Transport.TCP:
         return this.createTCPConfig(options as TCPMicroserviceOptions);
 
+      case Transport.GRPC:
+        return this.createGrpcConfig(options as GrpcMicroserviceOptions);
+
       default:
         throw new Error(`MicroserviceFactory: Unsupported transport type`);
     }
+  }
+
+  /**
+   * Build the injectable client for a set of options.
+   *
+   * gRPC is the odd one out: `ClientProxyFactory.create` returns a `ClientGrpc`
+   * whose typed stub must be pulled out with `getService()`. Doing it here lets
+   * consumers inject a ready-to-call service instead of wiring `onModuleInit`.
+   */
+  public createClient<T extends object = ClientProxy>(
+    clientOptions: CustomClientOptions,
+  ): T {
+    // createConfig casts `{ name, transport, options }` to CustomClientOptions;
+    // read them back through the same escape hatch.
+    const { transport, options } = clientOptions as unknown as {
+      transport: Transport;
+      options?: Record<string, any>;
+    };
+
+    if (transport !== Transport.GRPC) {
+      return ClientProxyFactory.create(clientOptions as ClientOptions) as unknown as T;
+    }
+
+    // `service` is ours, not Nest's — remove it before handing the options over.
+    const { service, ...grpcOptions } = (options ?? {}) as {
+      service?: string;
+    };
+
+    if (!service) {
+      throw new Error(
+        'MicroserviceFactory: gRPC client options must include a `service` name matching the .proto service',
+      );
+    }
+
+    const client = ClientProxyFactory.create({
+      ...clientOptions,
+      options: grpcOptions,
+    } as ClientOptions) as unknown as ClientGrpc;
+
+    return client.getService<T>(service);
   }
 }
