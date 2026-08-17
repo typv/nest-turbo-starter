@@ -9,7 +9,7 @@ export class HttpLoggerMiddleware implements NestMiddleware {
 
   use(req: any, res: any, next: () => void) {
     const startTime = Date.now();
-    const { id, method, headers, user } = req;
+    const { id, method, headers } = req;
     const query = req.query || {};
     const params = req.params || {};
     // Get remote address info
@@ -43,9 +43,12 @@ export class HttpLoggerMiddleware implements NestMiddleware {
         responseTime,
       };
 
-      // Log based on status code
-      if (res.statusCode >= 400) {
+      // A 4xx is the client being told no — expected traffic, not a fault of
+      // this service. Only 5xx belongs at error level, where alerting looks.
+      if (res.statusCode >= 500) {
         this.logger.error('Request completed', logData);
+      } else if (res.statusCode >= 400) {
+        this.logger.warn('Request completed', logData);
       } else {
         this.logger.info('Request completed', logData);
       }
