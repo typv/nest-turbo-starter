@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package user;
+
+service UserService {
+  rpc GetUser (GetUserRequest) returns (UserResponse);
+  rpc GetUsers (GetUsersRequest) returns (GetUsersResponse);
+  rpc CreateUser (CreateUserRequest) returns (UserResponse);
+  rpc UpdateUser (UpdateUserRequest) returns (UserResponse);
+  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse);
+  rpc FindUserByEmail (FindUserByEmailRequest) returns (UserResponse);
+}
+
+// Callers pass EITHER id OR email; both are `optional` so a single lookup
+// serves both without branching at the call site.
+message GetUserRequest {
+  optional string id = 1;
+  optional string email = 2;
+}
+
+message GetUsersRequest {
+  optional int32 limit = 1;
+  optional int32 offset = 2;
+  optional string search = 3;
+}
+
+message CreateUserRequest {
+  string email = 1;
+  string password = 2;
+  optional string firstName = 3;
+  optional string lastName = 4;
+  optional string fullName = 5;
+  optional string dateOfBirth = 6; // ISO 8601
+  optional string gender = 7;
+  optional string phoneNumber = 8;
+  optional string avatar = 9;
+  optional bool isActive = 10;
+  optional bool emailVerified = 11;
+  optional string role = 12;
+}
+
+message UpdateUserRequest {
+  string id = 1;
+  optional string firstName = 2;
+  optional string lastName = 3;
+  optional string fullName = 4;
+  optional string dateOfBirth = 5; // ISO 8601
+  optional string gender = 6;
+  optional string phoneNumber = 7;
+  optional string avatar = 8;
+  optional bool isActive = 9;
+  optional string password = 10;
+  optional string passwordChangedAt = 11; // ISO 8601
+}
+
+message DeleteUserRequest {
+  string id = 1;
+}
+
+message FindUserByEmailRequest {
+  string email = 1;
+}
+
+// Shared response for GetUser / CreateUser / UpdateUser / FindUserByEmail.
+//
+// `password` carries the bcrypt hash, because auth-service verifies credentials
+// locally. See docs/service-communication.md.
+//
+// Nullable columns are `optional` so proto3 field presence applies and the
+// loader does not substitute "" / false for absent values.
+message UserResponse {
+  string id = 1;
+  string email = 2;
+  optional string firstName = 3;
+  optional string lastName = 4;
+  optional string fullName = 5;
+  optional string dateOfBirth = 6; // ISO 8601
+  optional string gender = 7;
+  optional string phoneNumber = 8;
+  optional string avatar = 9;
+  bool isActive = 10;
+  bool emailVerified = 11;
+  string role = 12;
+  optional string password = 13;
+  optional string passwordChangedAt = 14; // ISO 8601
+  optional string createdAt = 15; // ISO 8601
+  optional string updatedAt = 16; // ISO 8601
+  bool is2faEnabled = 17;
+}
+
+message GetUsersResponse {
+  repeated UserResponse users = 1;
+  int32 total = 2;
+}
+
+message DeleteUserResponse {
+  bool success = 1;
+  string id = 2;
+  string message = 3;
+}

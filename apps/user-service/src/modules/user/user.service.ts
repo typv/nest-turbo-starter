@@ -1,27 +1,26 @@
-import { ERROR_RESPONSE, hashData, ServerException } from '@app/common';
-import { UserRequestPayload } from '@app/common';
+import {
+  CreateUserRequest,
+  DeleteUserRequest,
+  DeleteUserResponse,
+  ERROR_RESPONSE,
+  FindUserByEmailRequest,
+  GetUserRequest,
+  GetUsersRequest,
+  GetUsersResponse,
+  hashData,
+  ServerException,
+  UserRequestPayload,
+  UserResponse,
+} from '@app/common';
 import { RedisService } from '@app/core';
 import { EntityManager, wrap } from '@mikro-orm/core';
 import { Inject, Injectable } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { getAppConfig } from 'src/config';
 import { UserRepository } from 'src/data-access/user';
 import { Logger } from 'winston';
-import {
-  CreateUserDataDto,
-  CreateUserResponseDto,
-  DeleteUserDataDto,
-  DeleteUserResponseDto,
-  FindUserByEmailDataDto,
-  FindUserByEmailResponseDto,
-  GetUserDataDto,
-  GetUserResponseDto,
-  GetUsersDataDto,
-  GetUsersResponseDto,
-  UpdateUserDataDto,
-  UpdateUserResponseDto,
-} from './dto';
+import { UpdateUserDataDto } from './dto';
+import { toUserResponse } from './user.mapper';
 
 @Injectable()
 export class UserService {
@@ -34,7 +33,7 @@ export class UserService {
     this.logger = this.logger.child({ context: UserService.name });
   }
 
-  async createUser(data: CreateUserDataDto): Promise<CreateUserResponseDto> {
+  async createUser(data: CreateUserRequest): Promise<UserResponse> {
     const existingUser = await this.userRepo.findOne({ email: data.email });
     if (existingUser) {
       throw new ServerException(ERROR_RESPONSE.USER_ALREADY_EXISTS);
@@ -44,24 +43,27 @@ export class UserService {
 
     const user = this.userRepo.create({
       ...data,
+      // dateOfBirth is an ISO string on the wire; MikroORM needs a Date.
+      ...(data.dateOfBirth && { dateOfBirth: new Date(data.dateOfBirth) }),
       password: hashedPassword,
     });
 
     await this.em.persist(user).flush();
 
-    return plainToInstance(CreateUserResponseDto, user);
+    return toUserResponse(user);
   }
 
-  async getUser(data: GetUserDataDto): Promise<GetUserResponseDto> {
+  async getUser(data: GetUserRequest): Promise<UserResponse> {
     const user = await this.userRepo.findOne(data);
     if (!user) {
       throw new ServerException(ERROR_RESPONSE.USER_NOT_FOUND);
     }
 
-    return plainToInstance(GetUserResponseDto, user, { enableImplicitConversion: true });
+    // auth-service verifies the hash locally, so GetUser must return it.
+    return toUserResponse(user, true);
   }
 
-  async getUsers(data: GetUsersDataDto): Promise<GetUsersResponseDto> {
+  async getUsers(data: GetUsersRequest): Promise<GetUsersResponse> {
     const { limit = 10, offset = 0, search } = data;
 
     const queryOptions: any = {};
@@ -82,12 +84,12 @@ export class UserService {
     });
 
     return {
-      users: plainToInstance(GetUserResponseDto, users),
+      users: users.map((user) => toUserResponse(user)),
       total,
     };
   }
 
-  async updateUser(data: UpdateUserDataDto): Promise<UpdateUserResponseDto> {
+  async updateUser(data: UpdateUserDataDto): Promise<UserResponse> {
     const user = await this.userRepo.findOne({ id: data.id });
 
     if (!user) {
@@ -97,13 +99,25 @@ export class UserService {
     // Remove id from data since we don't want to update it
     const { ...updateData } = data;
 
-    wrap(user).assign(updateData);
+    // Date columns arrive as ISO strings; MikroORM needs real Dates.
+    const assignable = {
+      ...updateData,
+      ...(updateData.dateOfBirth && { dateOfBirth: new Date(updateData.dateOfBirth) }),
+      ...(updateData.passwordChangedAt && {
+        passwordChangedAt: new Date(updateData.passwordChangedAt),
+      }),
+    };
+
+    wrap(user).assign(assignable);
     await this.em.flush();
 
-    return plainToInstance(UpdateUserResponseDto, user);
+    // Deactivation must take effect now, not when the JWT expires.
+    await this.evictUserCache(user.id, updateData.isActive === false);
+
+    return toUserResponse(user);
   }
 
-  async deleteUser(data: DeleteUserDataDto): Promise<DeleteUserResponseDto> {
+  async deleteUser(data: DeleteUserRequest): Promise<DeleteUserResponse> {
     const user = await this.userRepo.findOne({ id: data.id });
 
     if (!user) {
@@ -113,6 +127,8 @@ export class UserService {
     user.deletedAt = new Date();
     await this.em.flush();
 
+    await this.evictUserCache(user.id, true);
+
     return {
       success: true,
       id: user.id,
@@ -120,32 +136,53 @@ export class UserService {
     };
   }
 
-  async findUserByEmail(
-    data: FindUserByEmailDataDto,
-  ): Promise<FindUserByEmailResponseDto> {
+  async findUserByEmail(data: FindUserByEmailRequest): Promise<UserResponse> {
     const user = await this.userRepo.findOne({ email: data.email });
 
     if (!user) {
       throw new ServerException(ERROR_RESPONSE.USER_NOT_FOUND);
     }
 
-    return plainToInstance(FindUserByEmailResponseDto, user);
+    return toUserResponse(user, true);
   }
 
-  async getUserInfo({ id }: UserRequestPayload): Promise<GetUserResponseDto> {
+  /**
+   * Best-effort cache eviction. Runs after the write has committed, so a Redis
+   * outage must not turn a successful write into a failed response; the TTL
+   * bounds the staleness instead.
+   */
+  private async evictUserCache(id: string, revokeSessions = false): Promise<void> {
+    try {
+      await this.redisService.deleteKey(this.redisService.getUserInfoKey(id));
+
+      if (revokeSessions) {
+        await this.redisService.deleteByPattern(
+          this.redisService.getUserTokenPattern(id),
+        );
+      }
+    } catch (error) {
+      this.logger.error({
+        context: `${UserService.name}.evictUserCache`,
+        message: `Failed to evict cache for user ${id}`,
+        error,
+      });
+    }
+  }
+
+  async getUserInfo({ id }: UserRequestPayload): Promise<UserResponse> {
     const userInfoKey = this.redisService.getUserInfoKey(id);
 
-    let userInfo = await this.redisService.getValue<GetUserResponseDto>(userInfoKey);
+    let userInfo = await this.redisService.getValue<UserResponse>(userInfoKey);
     if (userInfo) return userInfo;
 
     const user = await this.userRepo.findOne({ id });
     if (!user) throw new ServerException(ERROR_RESPONSE.USER_NOT_FOUND);
 
-    userInfo = plainToInstance(GetUserResponseDto, wrap(user).toJSON());
+    userInfo = toUserResponse(user);
     await this.redisService.setValue(
       userInfoKey,
       userInfo,
-      getAppConfig().cacheTtlInMinutes,
+      getAppConfig().cacheTtlInSeconds,
     );
 
     return userInfo;

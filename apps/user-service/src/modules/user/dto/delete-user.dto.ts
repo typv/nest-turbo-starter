@@ -1,12 +1,7 @@
+import { DeleteUserRequest } from '@app/common';
 import { IsUUID } from 'class-validator';
 
-export class DeleteUserDataDto {
+export class DeleteUserDataDto implements DeleteUserRequest {
   @IsUUID()
   id: string;
-}
-
-export class DeleteUserResponseDto {
-  success: boolean;
-  id: string;
-  message: string;
 }

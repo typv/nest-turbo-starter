@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build:clean": "rimraf dist && pnpm build",
+    "build:clean": "rimraf dist tsconfig.tsbuildinfo && pnpm build",
     "build": "npx tsc -p tsconfig.json",
     "start:dev": "npx tsc -p tsconfig.json --watch --preserveWatchOutput"
   },
@@ -21,6 +21,8 @@
   },
   "dependencies": {
     "@app/common": "workspace:*",
+    "@grpc/grpc-js": "^1.14.0",
+    "@grpc/proto-loader": "^0.7.15",
     "@nestjs/common": "11.1.19",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "11.1.19",
@@ -34,6 +36,7 @@
     "nest-winston": "^1.10.2",
     "passport": "^0.7.0",
     "passport-custom": "^1.1.1",
+    "passport-jwt": "^4.0.1",
     "winston": "^3.17.0",
     "firebase-admin": "^13.5.0",
     "google-auth-library": "^9.15.1",
@@ -46,6 +49,6 @@
     "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "typescript": "latest"
+    "typescript": "^6.0.3"
   }
 }

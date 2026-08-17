@@ -2,25 +2,34 @@ import {
   ERROR_RESPONSE,
   jwtConfiguration,
   JwtTokenType,
-  ServerException, UserMessagePattern,
+  ServerException,
+  UserGrpcService,
+  UserRequestPayload,
 } from '@app/common';
-import { UserRequestPayload } from '@app/common';
-import { MicroserviceName, MS_INJECTION_TOKEN, RedisService } from '@app/core';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+import { Transport } from '@nestjs/microservices';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { lastValueFrom } from 'rxjs';
-import { ClientProxy, Transport } from '@nestjs/microservices';
+import { MicroserviceName, MS_INJECTION_TOKEN } from '../../microservice';
+import { callMicroservice } from '../../microservice/call-microservice';
+import { RedisService } from '../../redis';
 
+/**
+ * Bearer-token auth for services that do not own the User entity; the user is
+ * fetched from user-service.
+ *
+ * user-service must not use this — it has a repository-backed strategy and
+ * would otherwise call itself over the network.
+ */
 @Injectable()
-export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt-auth') {
+export class GrpcJwtAuthStrategy extends PassportStrategy(Strategy, 'jwt-auth') {
   constructor(
-    private redisService: RedisService,
+    private readonly redisService: RedisService,
     @Inject(jwtConfiguration.KEY)
-    private jwtConfig: ConfigType<typeof jwtConfiguration>,
-    @Inject(MS_INJECTION_TOKEN(MicroserviceName.UserService, Transport.TCP))
-    private readonly userClientTCP: ClientProxy,
+    private readonly jwtConfig: ConfigType<typeof jwtConfiguration>,
+    @Inject(MS_INJECTION_TOKEN(MicroserviceName.UserService, Transport.GRPC))
+    private readonly userService: UserGrpcService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -34,15 +43,12 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt-auth') {
     if (type !== JwtTokenType.AccessToken)
       throw new ServerException(ERROR_RESPONSE.UNAUTHORIZED);
 
-    // Check valid token
     const userTokenKey = this.redisService.getUserTokenKey(id, jti);
     const isTokenValid = await this.redisService.getValue<string>(userTokenKey);
     if (!isTokenValid) throw new ServerException(ERROR_RESPONSE.UNAUTHORIZED);
 
-    const user = await lastValueFrom(
-      this.userClientTCP.send(UserMessagePattern.GET_USER, { id }),
-    );
-    if(!user) throw new ServerException(ERROR_RESPONSE.UNAUTHORIZED);
+    const user = await callMicroservice(this.userService.getUser({ id }));
+    if (!user) throw new ServerException(ERROR_RESPONSE.UNAUTHORIZED);
     if (!user.isActive) throw new ServerException(ERROR_RESPONSE.USER_DEACTIVATED);
 
     return {

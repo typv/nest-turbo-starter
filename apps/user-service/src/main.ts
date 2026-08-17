@@ -63,14 +63,15 @@ async function bootstrap() {
   // } as MicroserviceConfigOptions);
   // await app.connectMicroservice<MicroserviceOptions>(kafkaConsumerConfig);
 
-  const tcpListener = configService.get('tcp.userService');
-  const tcpConfig = msFactory.createConfig({
-    transport: Transport.TCP,
+  const grpcListener = configService.get('grpc.userService');
+  const grpcConfig = msFactory.createConfig({
+    serviceName: MicroserviceName.UserService,
+    transport: Transport.GRPC,
     options: {
-      ...tcpListener,
+      ...grpcListener,
     },
   } as unknown as MicroserviceConfigOptions);
-  await app.connectMicroservice<MicroserviceOptions>(tcpConfig);
+  await app.connectMicroservice<MicroserviceOptions>(grpcConfig);
 
   await app.startAllMicroservices();
   await app.listen(appPort);
@@ -79,7 +80,7 @@ async function bootstrap() {
     nodeEnv,
     logger,
     appPort,
-    tcpListener,
+    msListener: { transport: 'gRPC', address: grpcListener?.url },
   });
 }
 

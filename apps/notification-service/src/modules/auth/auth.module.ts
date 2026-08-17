@@ -1,9 +1,8 @@
 import { codeExpiresConfiguration, jwtConfiguration } from '@app/common';
+import { GrpcGatewayAuthStrategy, GrpcJwtAuthStrategy } from '@app/core';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtAuthStrategy, RefreshTokenStrategy } from 'src/modules/auth/strategies';
-import { GatewayAuthStrategy } from './strategies/gateway-auth.strategy';
 
 @Module({
   imports: [
@@ -23,6 +22,7 @@ import { GatewayAuthStrategy } from './strategies/gateway-auth.strategy';
     }),
   ],
   controllers: [],
-  providers: [JwtAuthStrategy, RefreshTokenStrategy, GatewayAuthStrategy],
+  // No RefreshTokenStrategy: this service exposes no refresh route.
+  providers: [GrpcJwtAuthStrategy, GrpcGatewayAuthStrategy],
 })
 export class AuthModule {}

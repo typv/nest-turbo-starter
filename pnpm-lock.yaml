@@ -62,9 +62,6 @@ importers:
       fork-ts-checker-webpack-plugin:
         specifier: ^9.1.0
         version: 9.1.0(typescript@6.0.2)(webpack@5.100.2(@swc/core@1.13.5))
-      globals:
-        specifier: ^15.15.0
-        version: 15.15.0
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -119,6 +116,12 @@ importers:
       '@app/core':
         specifier: workspace:*
         version: link:../../libs/core
+      '@grpc/grpc-js':
+        specifier: ^1.14.0
+        version: 1.14.0
+      '@grpc/proto-loader':
+        specifier: ^0.7.15
+        version: 0.7.15
       '@nestjs/common':
         specifier: 11.1.19
         version: 11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -219,6 +222,12 @@ importers:
       '@aws-sdk/client-ses':
         specifier: ^3.808.0
         version: 3.910.0
+      '@grpc/grpc-js':
+        specifier: ^1.14.0
+        version: 1.14.0
+      '@grpc/proto-loader':
+        specifier: ^0.7.15
+        version: 0.7.15
       '@nestjs/bullmq':
         specifier: ^11.0.2
         version: 11.0.4(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(bullmq@5.61.0)
@@ -322,6 +331,12 @@ importers:
       '@app/core':
         specifier: workspace:*
         version: link:../../libs/core
+      '@grpc/grpc-js':
+        specifier: ^1.14.0
+        version: 1.14.0
+      '@grpc/proto-loader':
+        specifier: ^0.7.15
+        version: 0.7.15
       '@mikro-orm/core':
         specifier: 7.0.10
         version: 7.0.10(dataloader@2.2.3)
@@ -499,7 +514,7 @@ importers:
         specifier: ^3.2.42
         version: 3.2.43
       typescript:
-        specifier: latest
+        specifier: ^6.0.3
         version: 6.0.3
 
   libs/core:
@@ -516,6 +531,12 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.821.0
         version: 3.910.0
+      '@grpc/grpc-js':
+        specifier: ^1.14.0
+        version: 1.14.0
+      '@grpc/proto-loader':
+        specifier: ^0.7.15
+        version: 0.7.15
       '@mikro-orm/core':
         specifier: 7.0.10
         version: 7.0.10(dataloader@2.2.3)
@@ -567,6 +588,9 @@ importers:
       passport-custom:
         specifier: ^1.1.1
         version: 1.1.1
+      passport-jwt:
+        specifier: ^4.0.1
+        version: 4.0.1
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
@@ -578,7 +602,7 @@ importers:
         version: 3.18.3
     devDependencies:
       typescript:
-        specifier: latest
+        specifier: ^6.0.3
         version: 6.0.3
 
   libs/email-template:
@@ -5385,10 +5409,6 @@ packages:
     resolution: {integrity: sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==}
     engines: {node: '>=4'}
 
-  globals@15.15.0:
-    resolution: {integrity: sha512-7ACyT3wmyp3I61S4fG682L0VA2RGD9otkqGJIwNUMF1SWUombIIk+af1unuDYgMm082aHYwD+mzJvv9Iu8dsgg==}
-    engines: {node: '>=18'}
-
   globby@11.1.0:
     resolution: {integrity: sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==}
     engines: {node: '>=10'}
@@ -9057,7 +9077,6 @@ snapshots:
     dependencies:
       '@grpc/proto-loader': 0.8.0
       '@js-sdsl/ordered-map': 4.4.2
-    optional: true
 
   '@grpc/proto-loader@0.7.15':
     dependencies:
@@ -9065,7 +9084,6 @@ snapshots:
       long: 5.3.2
       protobufjs: 7.5.4
       yargs: 17.7.2
-    optional: true
 
   '@grpc/proto-loader@0.8.0':
     dependencies:
@@ -9073,7 +9091,6 @@ snapshots:
       long: 5.3.2
       protobufjs: 7.5.4
       yargs: 17.7.2
-    optional: true
 
   '@hapi/hoek@9.3.0': {}
 
@@ -9621,8 +9638,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@js-sdsl/ordered-map@4.4.2':
-    optional: true
+  '@js-sdsl/ordered-map@4.4.2': {}
 
   '@lottiefiles/dotlottie-react@0.13.3(react@19.0.0)':
     dependencies:
@@ -10080,38 +10096,28 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@protobufjs/aspromise@1.1.2':
-    optional: true
+  '@protobufjs/aspromise@1.1.2': {}
 
-  '@protobufjs/base64@1.1.2':
-    optional: true
+  '@protobufjs/base64@1.1.2': {}
 
-  '@protobufjs/codegen@2.0.4':
-    optional: true
+  '@protobufjs/codegen@2.0.4': {}
 
-  '@protobufjs/eventemitter@1.1.0':
-    optional: true
+  '@protobufjs/eventemitter@1.1.0': {}
 
   '@protobufjs/fetch@1.1.0':
     dependencies:
       '@protobufjs/aspromise': 1.1.2
       '@protobufjs/inquire': 1.1.0
-    optional: true
 
-  '@protobufjs/float@1.0.2':
-    optional: true
+  '@protobufjs/float@1.0.2': {}
 
-  '@protobufjs/inquire@1.1.0':
-    optional: true
+  '@protobufjs/inquire@1.1.0': {}
 
-  '@protobufjs/path@1.1.2':
-    optional: true
+  '@protobufjs/path@1.1.2': {}
 
-  '@protobufjs/pool@1.1.0':
-    optional: true
+  '@protobufjs/pool@1.1.0': {}
 
-  '@protobufjs/utf8@1.1.0':
-    optional: true
+  '@protobufjs/utf8@1.1.0': {}
 
   '@radix-ui/colors@3.0.0': {}
 
@@ -13061,8 +13067,6 @@ snapshots:
 
   globals@11.12.0: {}
 
-  globals@15.15.0: {}
-
   globby@11.1.0:
     dependencies:
       array-union: 2.1.0
@@ -13892,8 +13896,7 @@ snapshots:
     dependencies:
       p-locate: 4.1.0
 
-  lodash.camelcase@4.3.0:
-    optional: true
+  lodash.camelcase@4.3.0: {}
 
   lodash.clonedeep@4.5.0: {}
 
@@ -13953,8 +13956,7 @@ snapshots:
       safe-stable-stringify: 2.5.0
       triple-beam: 1.4.1
 
-  long@5.3.2:
-    optional: true
+  long@5.3.2: {}
 
   lowercase-keys@3.0.0: {}
 
@@ -14602,7 +14604,6 @@ snapshots:
       '@protobufjs/utf8': 1.1.0
       '@types/node': 22.18.10
       long: 5.3.2
-    optional: true
 
   proxy-addr@2.0.7:
     dependencies:

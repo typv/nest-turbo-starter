@@ -16,8 +16,13 @@ import { RedisService } from './redis.service';
         const redisUrl = configService.get<string>('REDIS_URL');
 
         const redisClient = new IORedis(redisUrl, {
-          retryStrategy: () => null,
-          maxRetriesPerRequest: null,
+          // Keep reconnecting indefinitely, backing off to 5s.
+          retryStrategy: (times) => Math.min(times * 200, 5_000),
+          // Reconnect when a failover leaves this connection on a replica.
+          reconnectOnError: (err) => err.message.includes('READONLY'),
+          // Fail a queued command rather than holding the caller open for the
+          // whole outage; callers decide whether the command is essential.
+          maxRetriesPerRequest: 3,
         });
 
         redisClient.on('error', (err) => {
@@ -31,11 +36,18 @@ import { RedisService } from './redis.service';
           });
         });
 
+        redisClient.on('reconnecting', (delay: number) => {
+          logger.warn({
+            message: `Redis client reconnecting in ${delay}ms`,
+            context: 'RedisClient',
+          });
+        });
+
         // Check redis connection
         try {
           await redisClient.ping();
         } catch (err) {
-          throw new Error(err.message);
+          throw new Error(err.message, { cause: err });
         }
 
         return redisClient;

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package notification;
+
+service NotificationService {
+  // Callers that only need dispatch, not delivery, may leave this unawaited.
+  rpc SendForgotPasswordMail (ForgotPasswordRequest) returns (SendMailResponse);
+}
+
+message ForgotPasswordRequest {
+  string email = 1;
+  string name = 2;
+  string resetPasswordUrl = 3;
+}
+
+message SendMailResponse {
+  bool success = 1;
+}

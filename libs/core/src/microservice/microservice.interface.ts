@@ -1,6 +1,7 @@
 import { Type } from '@nestjs/common';
 import { Transport } from '@nestjs/microservices';
 import {
+  GrpcOptions,
   KafkaOptions,
   RmqOptions,
   TcpOptions,
@@ -19,12 +20,26 @@ export interface TCPMicroserviceOptions extends TcpOptions {
   serviceName: MicroserviceName;
 }
 
+/**
+ * `service` names the service inside the .proto so `createClient()` can resolve
+ * the typed stub. Stripped before the options reach Nest.
+ */
+export interface GrpcMicroserviceOptions extends Omit<GrpcOptions, 'options'> {
+  serviceName: MicroserviceName;
+  options: GrpcOptions['options'] & { service?: string };
+}
+
 export type MicroserviceConfigOptions =
   | RmqMicroserviceOptions
   | KafkaMicroserviceOptions
-  | TCPMicroserviceOptions;
+  | TCPMicroserviceOptions
+  | GrpcMicroserviceOptions;
 
-export type SupportedTransport = Transport.KAFKA | Transport.RMQ | Transport.TCP;
+export type SupportedTransport =
+  | Transport.KAFKA
+  | Transport.RMQ
+  | Transport.TCP
+  | Transport.GRPC;
 
 export interface MicroserviceClientDefinition {
   name: MicroserviceName;

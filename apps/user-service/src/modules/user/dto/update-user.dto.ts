@@ -1,7 +1,14 @@
-import { Gender } from '@app/common';
-import { IsBoolean, IsDate, IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
+import { Gender, UpdateUserRequest } from '@app/common';
+import {
+  IsBoolean,
+  IsDateString,
+  IsEnum,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
-export class UpdateUserDataDto {
+export class UpdateUserDataDto implements UpdateUserRequest {
   @IsUUID()
   id: string;
 
@@ -17,9 +24,9 @@ export class UpdateUserDataDto {
   @IsOptional()
   fullName?: string;
 
-  @IsDate()
+  @IsDateString()
   @IsOptional()
-  dateOfBirth?: Date;
+  dateOfBirth?: string;
 
   @IsEnum(Gender)
   @IsOptional()
@@ -41,21 +48,7 @@ export class UpdateUserDataDto {
   @IsOptional()
   password?: string;
 
-  @IsDate()
+  @IsDateString()
   @IsOptional()
-  passwordChangedAt?: Date;
-}
-
-export class UpdateUserResponseDto {
-  id: string;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-  fullName?: string;
-  dateOfBirth?: Date;
-  gender?: Gender;
-  phoneNumber?: string;
-  avatar?: string;
-  isActive: boolean;
-  updatedAt: Date;
+  passwordChangedAt?: string;
 }
