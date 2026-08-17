@@ -3,6 +3,25 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { convertErrorToObject } from '../utilities';
 
+/**
+ * Headers that carry a credential or an identity assertion. `x-auth-user` is
+ * injected by the gateway and holds the caller's id, session jti and role —
+ * enough to impersonate them if it leaks out of a log.
+ */
+const REDACTED_HEADERS = new Set([
+  'authorization',
+  'proxy-authorization',
+  'cookie',
+  'set-cookie',
+  'x-auth-user',
+  'x-auth-token',
+  'x-access-token',
+  'x-refresh-token',
+  'x-api-key',
+  'api-key',
+  'x-csrf-token',
+]);
+
 @Injectable()
 export class HttpLoggerMiddleware implements NestMiddleware {
   constructor(@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger) {}
@@ -15,11 +34,11 @@ export class HttpLoggerMiddleware implements NestMiddleware {
     // Get remote address info
     const remoteAddress = req.ip || req.connection.remoteAddress || '::1';
 
-    // Hide authorization token
-    const requestHeaders = { ...headers };
-    if (requestHeaders.authorization) {
-      requestHeaders.authorization = '[REDACTED]';
-    }
+    const requestHeaders = Object.fromEntries(
+      Object.entries(headers ?? {}).map(([key, value]) =>
+        REDACTED_HEADERS.has(key.toLowerCase()) ? [key, '[REDACTED]'] : [key, value],
+      ),
+    );
 
     res.on('finish', () => {
       const responseTime = Date.now() - startTime;
