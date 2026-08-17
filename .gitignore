@@ -14,3 +14,7 @@
 **/metadata.ts
 **/tsconfig.build.tsbuildinfo
 **/temp
+
+# logs
+*.log
+.claude/hooks/.logs/

@@ -1,0 +1,17 @@
+# ADF Quality Gates — gitleaks config
+# Extends built-in ruleset. Add project-specific allowlists below.
+
+[extend]
+useDefault = true
+
+# Example: allowlist for test fixtures
+# [[allowlists]]
+#   description = "Test fixture keys"
+#   paths = ["tests/fixtures/.*"]
+
+# Example: custom rule
+# [[rules]]
+#   description = "Internal API token"
+#   id = "internal-api-token"
+#   regex = '''MYAPP_[A-Z0-9]{32}'''
+#   tags = ["key", "internal"]
